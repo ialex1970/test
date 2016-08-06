@@ -2,7 +2,7 @@
 require __DIR__ . '/autoload.php';
 
 $url = $_SERVER['REQUEST_URI'];
-$controller = new App\Controllers\Messages();
+$controller = new App\Controllers\Users();
 $action = $_GET['action'] ?: 'Index';
 
 try {
