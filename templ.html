@@ -1,0 +1,101 @@
+<div class="page__content-i">
+    <div class="breadcrumbs">
+        <ul>
+            <li><a href="http://kitaphane.tatar.ru/rus/index.htm" title="Национальная библиотека Республики Татарстан">Национальная
+                библиотека Республики Татарстан</a></li>
+            <span> &gt; </span>
+            <li><a href="http://kitaphane.tatar.ru/rus/obratnaya-svyaz.htm" title="Контакты">Контакты</a></li>
+            <span> &gt; </span>
+            <li><a href="http://kitaphane.tatar.ru/rus/guestsbook.htm" title="Гостевая книга">Гостевая книга</a></li>
+            <span> &gt; </span>
+            <li>Шаблон Гостевая книга</li>
+        </ul>
+    </div>
+    <h1>Шаблон Гостевая книга</h1>
+    <div style="/*border:0px solid #3d6299; */padding: 10px; width: 90%">
+
+        <div class="ft_descripion"></div>
+        <form method="post" name="send" id="send" action="/guestbook.htm" enctype="multipart/form-data">
+            <input type="hidden" name="send" value="post">
+            <script src="/js/popcalendar.js"></script>
+            <div onclick="bShow=true" id="calendar" style="z-index:+999;position:absolute;visibility:hidden;">
+                <table width="250"
+                       style="font-family:arial;font-size:11px;border-width:1;border-style:solid;border-color:#a0a0a0;font-family:arial; font-size:11px}"
+                       bgcolor="#ffffff">
+                    <tbody>
+                    <tr bgcolor="#0000aa">
+                        <td>
+                            <table width="248">
+                                <tbody>
+                                <tr>
+                                    <td style="padding:2px;font-family:arial; font-size:11px;"><font color="#ffffff"><b><span
+                                            id="caption"></span></b></font></td>
+                                    <td align="right"><a href="javascript:hideCalendar()"><img
+                                            src="/design/img/cal/close.gif" width="15" height="13" border="0"
+                                            alt="Close the Calendar"></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:5px" bgcolor="#ffffff"><span id="content"></span></td>
+                    </tr>
+                    <tr bgcolor="#f0f0f0">
+                        <td style="padding:5px" align="center"><span id="lblToday"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="selectMonth" style="z-index:+999;position:absolute;visibility:hidden;"></div>
+            <div id="selectYear" style="z-index:+999;position:absolute;visibility:hidden;"></div>
+            <script type="text/javascript">
+                function unCheckRadioButtons(name) {
+                    var radios = document.getElementsByName(name);
+                    for (var i = 0; i < radios.length; i++) {
+                        radios[i].checked = false;
+                    }
+                }
+                function unCheckSelect(id) {
+                    document.getElementById(id).selectedIndex = 0;
+                }
+                function clearHisVariant(id) {
+                    document.getElementById('his_variant[' + id + ']').value = '';
+                }
+            </script>
+
+
+            <div>*Тема</div>
+            <div><input type="text" name="answer[75]" id="answer[75]" value="" style="width:90%"></div>
+            <div style="font-size:0.8em"></div>
+            <br>
+            <div>*Автор</div>
+            <div><input type="text" name="answer[76]" id="answer[76]" value="" style="width:90%"></div>
+            <div style="font-size:0.8em"></div>
+            <br>
+            <div>E-mail</div>
+            <div><input type="text" name="answer[77]" id="answer[77]" value="" style="width:90%"></div>
+            <div style="font-size:0.8em"></div>
+            <br>
+            <div>*Сообщение</div>
+            <div><textarea name="answer[78]" id="answer[78]" rows="10" cols="40" style="width:90%"></textarea>
+            </div>
+            <div style="font-size:0.8em"></div>
+            <br>
+            <label for="keystring">Защита от несанкционированных рассылок</label>
+            <img src="/modules/mycaptcha/img.php" align="left" id="img-z">
+            <div id="text-z">
+                <input type="text" name="captcha" id="captcha" value="" style="width: 120px"
+                       onchange="fieldsFilled()"><br>
+                Введите текст, изображенный на картинке (строчные латинские буквы, цифры)
+            </div>
+            <input type="submit" name="submit_btn" id="submit_btn" value="Отправить"></form>
+        <script language="javascript" type="text/javascript"><!--
+        var send_NoCheck = false
+        function send_CheckOff() {
+            send_NoCheck = true
+        }
+        //--></script>
+    </div>
+
+</div>
