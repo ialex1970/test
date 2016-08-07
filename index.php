@@ -6,7 +6,6 @@ $url = $_SERVER['REQUEST_URI'];
 //echo $url; die;
     $controller = new App\Controllers\MainController();
 $action = $_GET['action'] ?: 'Index';
-
 try {
     $controller->action($action);
 } catch (\App\Exceptions\Db $e) {

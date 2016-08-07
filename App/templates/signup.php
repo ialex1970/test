@@ -78,16 +78,16 @@
     <row>
         <div class="col-md-8 col-md-offset-2">
             <h1>Регистрация</h1>
-            <form class="form-horizontal" action='user' method="POST">
+            <form class="form-horizontal" action='#' method="POST">
                 <fieldset>
                     <div id="legend">
                         <legend class="">Register</legend>
                     </div>
                     <div class="control-group">
                         <!-- Username -->
-                        <label class="control-label"  for="username">Username</label>
+                        <label class="control-label"  for="name">Username</label>
                         <div class="controls">
-                            <input type="text" id="username" name="username" placeholder="" class="input-xlarge">
+                            <input type="text" id="name" name="name" placeholder="" class="input-xlarge">
                             <p class="help-block">Username can contain any letters or numbers, without spaces</p>
                         </div>
                     </div>
@@ -129,6 +129,7 @@
                     <div class="control-group">
                         <!-- Button -->
                         <div class="controls">
+                            <input type="submit">
                             <button class="btn btn-success">Register</button>
                         </div>
                     </div>
