@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use App\Db;
@@ -11,7 +12,6 @@ abstract class Model
     public static function findAll()
     {
         $db = Db::instance();
-
         return $db->query(
             'SELECT * FROM ' . static::TABLE,
             static::class
@@ -22,10 +22,9 @@ abstract class Model
     {
         //static::$id = $id;
         $db = Db::instance();
-
         //echo 'SELECT * FROM ' . static::TABLE . ' WHERE id='.$this->id; die;
         return $db->query(
-            'SELECT * FROM ' . static::TABLE . ' WHERE id=' . $id,
+            'SELECT * FROM ' . static::TABLE . ' WHERE id='.$id,
             static::class
         )[0];
     }
@@ -48,7 +47,7 @@ abstract class Model
                 continue;
             }
             $columns[] = $key;
-            $values[':' . $key] = $value;
+            $values[':' .$key] = $value;
         }
         $sql = 'INSERT INTO ' . static::TABLE . ' (' . implode(',', $columns) . ')
       VALUES (' . implode(',', array_keys($values)) . ')';
@@ -68,4 +67,3 @@ abstract class Model
        print_r($columns);
      }*/
 }
-

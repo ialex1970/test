@@ -7,4 +7,9 @@ use App\Model;
 class User extends Model
 {
     const TABLE = 'users';
+
+    public function __construct($user)
+    {
+        var_dump($user); die();
+    }
 }
