@@ -14,56 +14,95 @@ abstract class Model
         $db = Db::instance();
         return $db->query(
             'SELECT * FROM ' . static::TABLE,
-            static::class
-        );
+            static::class);
     }
 
-    public static function findById($id)
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public static function findById(int $id)
     {
-        //static::$id = $id;
         $db = Db::instance();
-        //echo 'SELECT * FROM ' . static::TABLE . ' WHERE id='.$this->id; die;
-        return $db->query(
-            'SELECT * FROM ' . static::TABLE . ' WHERE id='.$id,
-            static::class
-        )[0];
+        $sql = 'SELECT * FROM ' . static::TABLE . ' WHERE id = :id';
+        $res = $db->query($sql, static::class, [':id' => $id]);
+        if ($res == false)
+            return false;
+        return $res[0];
     }
-
 
     public function isNew()
     {
         return empty($this->id);
+
     }
 
-    public function insert()
+    /*public function save($id=null) {
+        if ($this->isNew()) {
+            echo $id."update";die;
+            $this->update($id);
+        } else {
+            echo "insert";die;
+            $this->insert();
+        }
+    }*/
+
+    public function save($id = null)
+    {
+        if ($id !== null) {
+            $this->update($id);
+        } else {
+            $this->insert();
+        }
+    }
+
+    protected function insert()
     {
         if (!$this->isNew()) {
             return;
         }
         $columns = [];
         $values = [];
-        foreach ($this as $key => $value) {
-            if ('id' == $key) {
+        foreach ($this as $k => $v) {
+            if ($k == 'id')
                 continue;
-            }
-            $columns[] = $key;
-            $values[':' .$key] = $value;
+            $columns[] = $k;
+            $values[':' . $k] = $v;
         }
-        $sql = 'INSERT INTO ' . static::TABLE . ' (' . implode(',', $columns) . ')
-      VALUES (' . implode(',', array_keys($values)) . ')';
+        $strCol = implode(', ', $columns);
+        $strVal = implode(', ', array_keys($values));
+        $sql = 'INSERT INTO ' . static::TABLE . ' (' . $strCol . ') VALUES (' . $strVal . ')';
 
         $db = Db::instance();
         $db->execute($sql, $values);
     }
 
-    /* public function update($id)
-     {
-       $obj = static::findById($id);
-       //var_dump($obj); die;
-       $columns = [];
-       foreach($this as $key => $value) {
-         $columns[] = $key;
-       }
-       print_r($columns);
-     }*/
+    protected function update($id)
+    {
+        $this->id = $id;
+        $db = Db::instance();
+        $columns = [];
+        $values = [];
+        foreach ($this as $k => $v) {
+            if ($k == 'id')
+                continue;
+            $columns[] = $k . '=:' . $k;
+            $values[':' . $k] = $v;
+        }
+        $strCol = implode(', ', $columns);
+        $sql = 'UPDATE ' . static::TABLE . ' SET ' . $strCol . ' WHERE id=' . $id;
+        $db->execute($sql, $values);
+    }
+
+    public function delete($id)
+    {
+        $this->id = (int)$id;
+        $db = Db::instance();
+        $sql = 'DELETE FROM ' . static::TABLE . ' WHERE id = :id';
+        $res = $db->query($sql, static::class, [':id' => $id]);
+        if ($res == false)
+            return false;
+        return $res;
+    }
+
 }

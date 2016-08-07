@@ -7,7 +7,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><?= $message->message ?></div>
                     <?php if(!isset($message->user->name)): ?>
-                        <div class="panel-body">Автор: <?= $message->user->name ?></div>
+                        <div class="panel-body">Автор: <?= $message->name ?></div>
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>

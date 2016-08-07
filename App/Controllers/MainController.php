@@ -21,7 +21,6 @@ class MainController
     public function action($action)
     {
         $methodName = 'action' . $action;
-        var_dump($methodName);
         $this->beforeAction();
         return $this->$methodName();
     }
@@ -39,9 +38,10 @@ class MainController
         echo $this->view->display(__DIR__ . '/../templates/index.php');
     }
 
-    protected function actionSignup()
+    protected function actionSignup($request)
     {
-        var_dump($_POST);
+        $request = $_POST;
+        var_dump($request);
         /*        if (!$_POST) {
                     return;
                 }
@@ -55,12 +55,10 @@ class MainController
 
     protected function actionNewMessage()
     {
-
-        print_r($_POST );
-
         if ($_POST) {
             $request = $_POST;
-            $message = new Message($request);
+            $message = new Message();
+            $message->store($request);
         }
 
         $this->view->title = 'Новое сообщение';
