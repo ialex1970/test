@@ -8,7 +8,7 @@ class User extends Model
 {
     const TABLE = 'users';
 
-    public function __construct($user)
+    public function __construct()
     {
         
     }
