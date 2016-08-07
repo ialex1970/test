@@ -4,12 +4,7 @@ require __DIR__ . '/autoload.php';
 
 $url = $_SERVER['REQUEST_URI'];
 //echo $url; die;
-if (!$url == '/') {
-    var_dump($url);
-    $controller = new App\Controllers\Messages();
-} else {
-    $controller = new App\Controllers\Users();
-}
+    $controller = new App\Controllers\MainController();
 $action = $_GET['action'] ?: 'Index';
 
 try {

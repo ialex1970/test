@@ -76,7 +76,6 @@
     <row>
         <div class="col-md-8 col-md-offset-2">
             <h1>Гостевая книга</h1>
-            <?= $ip = $_SERVER['REMOTE_ADDR'] == '::1' ? 'localhost' : '' ?>
             <?php foreach ($this->messages as $message): ?>
                 <div class="panel panel-default">
                     <div class="panel-heading"><?= $message->message ?></div>

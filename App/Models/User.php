@@ -10,6 +10,5 @@ class User extends Model
 
     public function __construct($user)
     {
-        var_dump($user); die();
     }
 }
