@@ -30,8 +30,8 @@ class Message extends Model
     public function __isset($k)
     {
         switch ($k) {
-            case 'author':
-                return !empty($this->author_id);
+            case 'user':
+                return !empty($this->user);
                 break;
             default:
                 return false;
