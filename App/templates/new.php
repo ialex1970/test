@@ -11,6 +11,7 @@
                     <label for="email">Email</label>
                     <input type="email" class="form-control" name="email" id="email">
                 </div>
+
                 <div class="form-group">
                     <label for="homepage">Home Page</label>
                     <input type="text" class="form-control" name="homepage" id="homepage">
