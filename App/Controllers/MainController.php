@@ -64,10 +64,20 @@ class MainController
         $this->view->title = 'Новое сообщение';
         echo $this->view->display(__DIR__ . '/../templates/new.php');
     }
-    
-    protected function actionSingle(){
+
+    protected function actionSingle()
+    {
         $this->view->message = \App\Models\Message::findById($_GET['id']);
-       //var_dump($this->view->message);
+        //var_dump($this->view->message);
         echo $this->view->display(__DIR__ . '/../templates/single.php');
+    }
+
+    protected function actionDelete()
+    {
+        $message = new Message();
+        $message->delete($_GET['id']);
+        $this->view->messages = \App\Models\Message::findAll();
+        //$this->view->message = \App\Models\Message::findById($_GET['id']);
+        echo $this->view->display(__DIR__ . '/../templates/index.php');
     }
 }

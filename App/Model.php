@@ -25,7 +25,6 @@ abstract class Model
     {
         $db = Db::instance();
         $sql = 'SELECT * FROM ' . static::TABLE . ' WHERE id = :id';
-        var_dump($sql);
         $res = $db->query($sql, static::class, [':id' => $id]);
         if ($res == false)
             return false;
