@@ -46,20 +46,23 @@ class Message extends Model
         }
     }
 
-    public function store($request)
+    public function store($post, $id = null)
     {
-        $this->name = $request['name'];
-        $this->email = $request['email'];
-        $this->message = $request['message'];
+        $this->name = $post['name'];
+        $this->email = $post['email'];
+        $this->message = $post['message'];
         //$this->published_at = time();
-        $this->homepage = isset($request['homepage']) ? $request['homepage'] : '';
+        $this->homepage = isset($post['homepage']) ? $post['homepage'] : '';
         $this->ip = ($_SERVER['REMOTE_ADDR'] == '::1') ? 'localhost' : $_SERVER['REMOTE_ADDR'];
         $user_agent = getenv('HTTP_USER_AGENT');;
         $this->browser = $this->user_browser($user_agent);
 
-        $sql = "INSERT INTO `messages` (name, email, message) 
-                VALUES ($this->name, $this->email, $this->message)";
-        $this->save();
+        if (isset($id)) {
+            $this->save((int)$id);
+        } else {
+            $this->save();
+        }
+        //$this->save();
         header('Location: http://guest.dev/');
     }
 

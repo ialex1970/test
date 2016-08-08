@@ -80,4 +80,28 @@ class MainController
         //$this->view->message = \App\Models\Message::findById($_GET['id']);
         echo $this->view->display(__DIR__ . '/../templates/index.php');
     }
+
+    protected function actionUpdate() {
+        //$id = (int)$_GET['id'];
+        $this->view->message = \App\Models\Message::findById($_GET['id']);
+
+        if($_POST) {
+            $message = new Message();
+            $message->store($_POST, $_GET['id']);
+            header('Location: http://guest.dev/');
+            exit;
+        }
+        /*if($_POST) {
+            $this->view->article              = new News();
+            $this->view->article->id          = $id;
+            $this->view->article->title       = $_POST['title'];
+            $this->view->article->description = $_POST['description'];
+            $this->view->article->lead        = $_POST['lead'];
+            $this->view->article->author_id   = $_POST['author_id'];
+            $this->view->article->save( $id );
+            header( 'Location: http://localhost/profit/Admin/index.php' );
+            exit;
+        }*/
+        $this->view->display(__DIR__ . '/../../Admin/update.php');
+    }
 }

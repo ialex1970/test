@@ -70,7 +70,6 @@ abstract class Model
             $values[':' . $k] = $v;
         }
         $strCol = implode(', ', $columns);
-        //var_dump($strCol);
         $strVal = implode(', ', array_keys($values));
         $sql = 'INSERT INTO ' . static::TABLE . ' (' . $strCol . ') VALUES (' . $strVal . ')';
         $db = Db::instance();

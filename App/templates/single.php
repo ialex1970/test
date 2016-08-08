@@ -2,7 +2,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <form action="#" method="post">
+            <form action="index.php?action=Update&id=<?= $this->message->id ?>" method="post">
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" value="<?= $this->message->name ?>" class="form-control" name="name" id="name">
