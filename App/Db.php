@@ -1,12 +1,13 @@
 <?php
 namespace App;
 
+use App\Exceptions\Core;
 
 class Db
 {
     use Singleton;
     //use PDO;
-    protected $dbh;
+    private $_dbh;
 
     /**
      * Db constructor.
@@ -17,7 +18,7 @@ class Db
             \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
         );
         try {
-            $this->dbh = new \PDO('mysql:host=127.0.0.1;dbname=lesson', 'root', '123', $options);
+            $this->_dbh = new \PDO('mysql:host=127.0.0.1;dbname=lesson', 'root', '123', $options);
         } catch (\PDOException $e) {
             throw  new \App\Exceptions\Db($e->getMessage());
         }
@@ -31,10 +32,14 @@ class Db
      */
     public function execute($sql, $params = [])
     {
-        $sth = $this->dbh->prepare($sql);
-        var_dump($sth);
-        $res = $sth->execute($params);
-        return $sth->execute($params);
+
+        $sth = $this->_dbh->prepare($sql);
+        $res = $sth->execute($params);             //Возвращает boolean
+        if(!$res) {
+            $ex = new \App\Exceptions\Db('Исключение');
+            throw $ex;
+        }
+        return $res;
     }
 
     /**
@@ -44,7 +49,7 @@ class Db
      */
     public function query($sql, $class)
     {
-        $sth = $this->dbh->prepare($sql);
+        $sth = $this->_dbh->prepare($sql);
         $res = $sth->execute();
         if (false !== $res) {
             return $sth->fetchAll(\PDO::FETCH_CLASS, $class);

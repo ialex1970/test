@@ -3,19 +3,20 @@
 namespace App\Models;
 
 use App\Model;
+use App\Exceptions\Core;
 use App\Db;
 
 class Message extends Model
 {
     const TABLE = 'messages';
-    public $user_id;
-    private $name;
-    private $email;
-    private $message;
-    private $homepage;
-    private $ip;
-    private $browser;
-    private $published_at;
+    //public $user_id;
+    public $name;
+    public $email;
+    public $message;
+    public $homepage;
+    public $ip;
+    public $browser;
+    //public $published_at;
 
 
     /**
@@ -50,19 +51,16 @@ class Message extends Model
         $this->name = $request['name'];
         $this->email = $request['email'];
         $this->message = $request['message'];
-        $this->published_at = time();
+        //$this->published_at = time();
         $this->homepage = isset($request['homepage']) ? $request['homepage'] : '';
         $this->ip = ($_SERVER['REMOTE_ADDR'] == '::1') ? 'localhost' : $_SERVER['REMOTE_ADDR'];
         $user_agent = getenv('HTTP_USER_AGENT');;
         $this->browser = $this->user_browser($user_agent);
-        $db = Db::instance();
 
-        
         $sql = "INSERT INTO `messages` (name, email, message) 
                 VALUES ($this->name, $this->email, $this->message)";
-        $this->message = $db->save($sql);
-        var_dump($this->message);
-        header('Location: /');
+        $this->save();
+        header('Location: http://guest.dev/');
     }
 
     /**

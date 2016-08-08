@@ -19,18 +19,14 @@
                         <td><input type="text"><i class="fa fa-search" aria-hidden="true"></i></td>
                         <td><input type="text"><i class="fa fa-search" aria-hidden="true"></i></td>
                     </tr>-->
+            <?php foreach ($this->messages as $message): ?>
                     <tr>
-                        <td>Mary</td>
-                        <td>Moe</td>
-                        <td>mary@example.com</td>
-                        <td>Some dummy text</td>
+                        <td><a href="index.php?action=Single&id=<?= $message->id ?>"><?= $message->name ?></a></td>
+                        <td><?= $message->email ?></td>
+                        <td><?=  $message->published_at ?></td>
+                        <td><?= $message->message ?></td>
                     </tr>
-                    <tr>
-                        <td>July</td>
-                        <td>Dooley</td>
-                        <td>july@example.com</td>
-                        <td>Lorem ipsum dolor sit amet.</td>
-                    </tr>
+            <?php endforeach; ?>
                     </tbody>
                 </table>
         </div>

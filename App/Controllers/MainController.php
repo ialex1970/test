@@ -64,4 +64,10 @@ class MainController
         $this->view->title = 'Новое сообщение';
         echo $this->view->display(__DIR__ . '/../templates/new.php');
     }
+    
+    protected function actionSingle(){
+        $this->view->message = \App\Models\Message::findById($_GET['id']);
+       //var_dump($this->view->message);
+        echo $this->view->display(__DIR__ . '/../templates/single.php');
+    }
 }

@@ -25,6 +25,7 @@ abstract class Model
     {
         $db = Db::instance();
         $sql = 'SELECT * FROM ' . static::TABLE . ' WHERE id = :id';
+        var_dump($sql);
         $res = $db->query($sql, static::class, [':id' => $id]);
         if ($res == false)
             return false;
@@ -70,9 +71,9 @@ abstract class Model
             $values[':' . $k] = $v;
         }
         $strCol = implode(', ', $columns);
+        //var_dump($strCol);
         $strVal = implode(', ', array_keys($values));
         $sql = 'INSERT INTO ' . static::TABLE . ' (' . $strCol . ') VALUES (' . $strVal . ')';
-
         $db = Db::instance();
         $db->execute($sql, $values);
     }
