@@ -24,6 +24,14 @@
                     <label for="file">File input</label>
                     <input type="file" name="file" id="file">
                 </div>
+                <div class="form-group">
+                    <label for="ip">IP</label>
+                    <input type="text" value="<?= $this->message->ip ?>" class="form-control" name="ip" id="ip" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="browser">Browser</label>
+                    <input type="text" value="<?= $this->message->browser ?>" class="form-control" name="browser" id="browser" disabled>
+                </div>
                 <button type="submit" class="btn btn-primary">Update</button>
                 <a href="index.php?action=Delete&id=<?= $this->message->id ?>" class="btn btn-danger">Delete</a>
             </form>

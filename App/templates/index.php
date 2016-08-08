@@ -6,7 +6,7 @@
             <table id="myTable" class="table table-striped tablesorter">
                     <thead>
                     <tr>
-                        <th class="header">User Name</th>
+                        <th class="header">Name</th>
                         <th class="header">Email</th>
                         <th class="header">Added</th>
                         <th class="header">Message</th>

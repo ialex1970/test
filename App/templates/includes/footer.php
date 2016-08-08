@@ -1,5 +1,5 @@
 <footer class="footer">
-    <div class="container-fluid">
+    <div class="container">
         <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing. <span class="glyphicon glyphicon-copyright-mark"></span> </p>
     </div>
 </footer>

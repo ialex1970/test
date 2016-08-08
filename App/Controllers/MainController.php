@@ -55,12 +55,23 @@ class MainController
 
     protected function actionNewMessage()
     {
-        if ($_POST) {
-            $request = $_POST;
-            $message = new Message();
-            $message->store($request);
-        }
+        session_start();
 
+        //var_dump($_SESSION['error']);
+        if ($_POST) {
+            if ($_POST['kapcha'] != $_SESSION['rand_code']) {
+                //echo "Капча введена неверно";
+                //echo $this->view->display(__DIR__ . '/../templates/new.php');
+                header('Location: http://guest.dev/index.php?action=NewMessage');
+                //$_SESSION['error'] = 'Капча введена не верно';
+                //return false;
+            } else {
+                $request = $_POST;
+                $message = new Message();
+                $message->store($request);
+            }
+
+        }
         $this->view->title = 'Новое сообщение';
         echo $this->view->display(__DIR__ . '/../templates/new.php');
     }
@@ -81,11 +92,12 @@ class MainController
         echo $this->view->display(__DIR__ . '/../templates/index.php');
     }
 
-    protected function actionUpdate() {
+    protected function actionUpdate()
+    {
         //$id = (int)$_GET['id'];
         $this->view->message = \App\Models\Message::findById($_GET['id']);
 
-        if($_POST) {
+        if ($_POST) {
             $message = new Message();
             $message->store($_POST, $_GET['id']);
             header('Location: http://guest.dev/');

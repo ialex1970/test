@@ -2,10 +2,10 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <form action="#" method="post">
+            <form id="new" action="#" method="post">
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" name="name" id="name">
+                    <input type="text" class="form-control" name="name" id="name" value="<?= $_POST['name'] ? $_POST['name'] : '' ?>">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -23,6 +23,17 @@
                 <div class="form-group">
                     <label for="file">File input</label>
                     <input type="file" name="file" id="file">
+                </div>
+                <h3>Проверчный код</h3>
+                <?php if (isset($_SESSION['error'])): ?>
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <p><?= $_SESSION['error'] ?></p>
+                    </div>
+                <?php endif; ?>
+                <div class="captcha">
+                    <img src = "captcha.php" />;
+                    <input type = "text" name = "kapcha" />
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
