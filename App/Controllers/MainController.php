@@ -36,6 +36,14 @@ class MainController
         $this->view->messages = \App\Models\Message::findAll();
         echo $this->view->display(__DIR__ . '/../templates/index.php');
     }
+    
+    protected function actionEdit()
+    {
+
+        $this->view->title = 'Сообщения';
+        $this->view->messages = \App\Models\Message::findAll();
+        echo $this->view->display(__DIR__ . '/../templates/edit.php');
+    }
 
     protected function actionSignup($request)
     {

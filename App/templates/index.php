@@ -3,32 +3,14 @@
     <row>
         <div class="col-md-10 col-md-offset-1">
             <h1>Гостевая книга</h1>
-            <table id="myTable" class="table table-striped tablesorter">
-                    <thead>
-                    <tr>
-                        <th class="header">Name</th>
-                        <th class="header">Email</th>
-                        <th class="header">Added</th>
-                        <th class="header">Message</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-<!--                    <tr>
-                        <td><input type="text"><i class="fa fa-search" aria-hidden="true"></i></td>
-                        <td><input type="text"><i class="fa fa-search" aria-hidden="true"></i></td>
-                        <td><input type="text"><i class="fa fa-search" aria-hidden="true"></i></td>
-                        <td><input type="text"><i class="fa fa-search" aria-hidden="true"></i></td>
-                    </tr>-->
             <?php foreach ($this->messages as $message): ?>
-                    <tr>
-                        <td><a href="index.php?action=Single&id=<?= $message->id ?>"><?= $message->name ?></a></td>
-                        <td><?= $message->email ?></td>
-                        <td><?=  $message->published_at ?></td>
-                        <td><?= $message->message ?></td>
-                    </tr>
+                    <div class="panel panel-warning">
+                        <div class="panel-heading"><?= $message->name ?> write (<span class="date"><?=  $message->published_at ?></span>):</div>
+                        <div class="panel-body">
+                            <?= $message->message ?>
+                        </div>
+                    </div>
             <?php endforeach; ?>
-                    </tbody>
-                </table>
         </div>
     </row>
     <div id="pager" class="pager">
