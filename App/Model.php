@@ -47,6 +47,9 @@ abstract class Model
         }
     }*/
 
+    /**
+     * @param null $id
+     */
     public function save($id = null)
     {
         if ($id !== null) {
@@ -56,6 +59,9 @@ abstract class Model
         }
     }
 
+    /**
+     * @throws Exceptions\Db
+     */
     protected function insert()
     {
         if (!$this->isNew()) {

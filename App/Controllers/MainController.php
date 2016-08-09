@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Exceptions\Core;
 use App\Models\Message;
+use App\Models\User;
 use App\View;
 
 class MainController
@@ -45,15 +46,13 @@ class MainController
         echo $this->view->display(__DIR__ . '/../templates/edit.php');
     }
 
-    protected function actionSignup($request)
+    protected function actionSignup()
     {
-        $request = $_POST;
-               if (!$_POST) {
-                    return;
-                }
-                $request = $_POST;
-                $user = new User($request);
-             
+        if ($_POST) {
+            $user = new User();
+           $res = $user->registr($_POST);
+        }
+
 
         $this->view->title = 'Регистрация';
         echo $this->view->display(__DIR__ . '/../templates/signup.php');
