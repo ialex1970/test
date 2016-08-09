@@ -2,6 +2,9 @@
 <div class="container">
     <row>
         <div class="col-md-10 col-md-offset-1">
+<?php echo '<pre>';
+    print_r($_SESSION);
+echo '</pre>'; ?>
             <h1 class="well">Гостевая книга</h1>
             <?php foreach ($this->messages as $message): ?>
                     <div class="panel panel-warning">

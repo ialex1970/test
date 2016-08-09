@@ -50,9 +50,8 @@ class MainController
     protected function actionSignup()
     {
         if ($_POST) {
-            //var_dump($_POST);
             $user = new User();
-            $res = $user->validate($_POST);
+            $res = $user->signup($_POST);
             if ($res !== null) {
                 $this->view->errors = $res;
                 //echo $this->view->display(__DIR__ . '/../templates/signup.php');
@@ -64,6 +63,21 @@ class MainController
 
         $this->view->title = 'Регистрация';
         echo $this->view->display(__DIR__ . '/../templates/signup.php');
+    }
+
+    public function actionSignin()
+    {
+        if ($_POST) {
+            $user = new User();
+            if ($user->signin()){
+                $_SESSION['user'] = $user;
+                header('Location: http://guest.dev/');
+            }else{
+                $_SESSION['error'] = 'Неправильный логин или пароль';
+            }
+        }
+        $this->view->title = 'Войти';
+        echo $this->view->display(__DIR__ . '/../templates/signin.php');
     }
 
     protected function actionNewMessage()
@@ -84,7 +98,6 @@ class MainController
     protected function actionSingle()
     {
         $this->view->message = \App\Models\Message::findById($_GET['id']);
-        //var_dump($this->view->message);
         echo $this->view->display(__DIR__ . '/../templates/single.php');
     }
 
@@ -99,8 +112,8 @@ class MainController
 
     protected function actionUpdate()
     {
-        //$id = (int)$_GET['id'];
-        $this->view->message = \App\Models\Message::findById($_GET['id']);
+        $id = (int)$_GET['id'];
+        $this->view->message = \App\Models\Message::findById($id);
 
         if ($_POST) {
             $message = new Message();

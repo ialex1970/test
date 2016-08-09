@@ -64,7 +64,10 @@
             </form>-->
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="index.php?action=Signup">Регистрация</a></li>
-                <li><a href="index.php?action=Signin">Регистрация</a></li>
+                <li><a href="index.php?action=Signin">Вход</a></li>
+                <?php if ($_SESSION['user']): ?>
+                    <li><a href="index.php?action=Signin">Выход <?= ($_SESSION['user']['name']) ?></a></li>
+                <?php endif; ?>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                     <ul class="dropdown-menu">

@@ -9,13 +9,14 @@ class User extends Model
     const TABLE = 'users';
     public $name;
     public $password;
+    private $user;
 
     public function __construct()
     {
 
     }
 
-    public function validate()
+    public function signup()
     {
         if (!preg_match("/^[a-zA-Z0-9]+$/", trim($_POST['name']))) {
             $err[] = "Логин может состоять только из букв английского алфавита и цифр";
@@ -33,14 +34,30 @@ class User extends Model
         if (strlen($_POST['password']) < 4) {
             $err[] = 'Пароль должен быть не меньше 4-х символов';
         }
-        return $err;
-        /*if (count($err) == 0) {
+        //return $err;
+        if (count($err) == 0) {
             $this->name = trim($_POST['name']);
             $this->password = md5(md5(trim($_POST['password'])));
             $this->save();
+            
         } else {
             return $err;
-        }*/
+        }
+    }
+
+    public function signin()
+    {
+        $this->name = trim($_POST['name']);
+        $this->password = md5(md5($_POST['password']));
+        $this->user = $this->findByName($this->name);
+        //var_dump($this->user->name);
+        //var_dump($this->name);
+
+        if ($this->user->name === $this->name && $this->user->password == $this->password) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function registr($request)
