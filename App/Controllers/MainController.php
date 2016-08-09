@@ -9,7 +9,6 @@ class MainController
 {
 
     protected $view;
-
     //protected $title;
 
     public function __construct()
@@ -56,21 +55,13 @@ class MainController
     protected function actionNewMessage()
     {
         session_start();
+        include("simple-php-captcha.php");
+        $_SESSION['captcha'] = simple_php_captcha();
 
-        //var_dump($_SESSION['error']);
         if ($_POST) {
-            if ($_POST['kapcha'] != $_SESSION['rand_code']) {
-                //echo "Капча введена неверно";
-                //echo $this->view->display(__DIR__ . '/../templates/new.php');
-                header('Location: http://guest.dev/index.php?action=NewMessage');
-                //$_SESSION['error'] = 'Капча введена не верно';
-                //return false;
-            } else {
-                $request = $_POST;
-                $message = new Message();
-                $message->store($request);
-            }
-
+            $request = $_POST;
+            $message = new Message();
+            $message->store($request);
         }
         $this->view->title = 'Новое сообщение';
         echo $this->view->display(__DIR__ . '/../templates/new.php');

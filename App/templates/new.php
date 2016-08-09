@@ -1,11 +1,13 @@
-<?php include_once 'includes/header.php'?>
+<?php include_once 'includes/header.php' ?>
+<?= print_r($_SESSION['captcha']) ?>
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <form id="new" action="#" method="post">
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" name="name" id="name" value="<?= $_POST['name'] ? $_POST['name'] : '' ?>">
+                    <input type="text" class="form-control" name="name" id="name"
+                           value="<?= $_POST['name'] ? $_POST['name'] : '' ?>">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -32,12 +34,13 @@
                     </div>
                 <?php endif; ?>
                 <div class="captcha">
-                    <img src = "captcha.php" />;
-                    <input type = "text" name = "kapcha" />
+                    <img src="<?= $_SESSION['captcha']['image_src'] ?>" alt="CAPTCHA code">
+                    <input type="text" name="captcha"/>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
 </div>
-<?php include_once 'includes/footer.php'?>
+
+<?php include_once 'includes/footer.php' ?>
