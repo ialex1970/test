@@ -2,10 +2,10 @@
 <div class="container">
     <row>
         <div class="col-md-10 col-md-offset-1">
-            <h1>Гостевая книга</h1>
+            <h1 class="well">Гостевая книга</h1>
             <?php foreach ($this->messages as $message): ?>
                     <div class="panel panel-warning">
-                        <div class="panel-heading"><?= $message->name ?> write (<span class="date"><?=  $message->published_at ?></span>):</div>
+                        <div class="panel-heading"><strong><?= $message->name ?></strong> write (<span class="date"><?=  $message->published_at ?></span>):</div>
                         <div class="panel-body">
                             <?= $message->message ?>
                         </div>
@@ -30,7 +30,7 @@
     </div>
 
 </div>
-<div class="container">
+<div class="container link">
     <div class="row col-md-10 col-md-offset-1">
         <a href="index.php?action=NewMessage" class="btn btn-primary">Новое сообщение</a>
     </div>
