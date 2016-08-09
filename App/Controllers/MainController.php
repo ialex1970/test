@@ -33,7 +33,6 @@ class MainController
 
     protected function actionIndex()
     {
-
         $this->view->title = 'Сообщения';
         $this->view->messages = \App\Models\Message::findAll();
         echo $this->view->display(__DIR__ . '/../templates/index.php');
@@ -41,7 +40,6 @@ class MainController
 
     protected function actionEdit()
     {
-
         $this->view->title = 'Сообщения';
         $this->view->messages = \App\Models\Message::findAll();
         echo $this->view->display(__DIR__ . '/../templates/edit.php');
@@ -54,7 +52,6 @@ class MainController
             $res = $user->signup($_POST);
             if ($res !== null) {
                 $this->view->errors = $res;
-                //echo $this->view->display(__DIR__ . '/../templates/signup.php');
             } else {
                 header('Location: http://guest.dev');
             }
@@ -70,7 +67,9 @@ class MainController
         if ($_POST) {
             $user = new User();
             if ($user->signin()){
+                session_start();
                 $_SESSION['user'] = $user;
+                //var_dump($_SESSION['user']->name);
                 header('Location: http://guest.dev/');
             }else{
                 $_SESSION['error'] = 'Неправильный логин или пароль';
@@ -78,6 +77,13 @@ class MainController
         }
         $this->view->title = 'Войти';
         echo $this->view->display(__DIR__ . '/../templates/signin.php');
+    }
+
+    public function actionLogout()
+    {
+        session_start();
+        unset($_SESSION['user']);
+            header('Location: http://guest.dev/');
     }
 
     protected function actionNewMessage()
