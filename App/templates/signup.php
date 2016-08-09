@@ -2,61 +2,42 @@
 
 <div class="container">
     <row>
-        <div class="col-md-8 col-md-offset-2">
-            <h1>Регистрация</h1>
+        <div class="col-md-6 col-md-offset-3">
             <form class="form-horizontal" action='#' method="POST">
                 <fieldset>
                     <div id="legend">
-                        <legend class="">Register</legend>
+                        <legend class="">Регистрация</legend>
                     </div>
-                    <div class="control-group">
+                    <div class="form-group">
                         <!-- Username -->
-                        <label class="control-label"  for="name">Username</label>
-                        <div class="controls">
-                            <input type="text" id="name" name="name" placeholder="" class="input-xlarge">
-                            <p class="help-block">Username can contain any letters or numbers, without spaces</p>
-                        </div>
+                        <label  for="name">Имя пользователя</label>
+                        <input type="text" id="name" name="name" placeholder="" class="form-control">
+                        <p class="help-block">Имя пользователя должно содержать буквы и цифры</p>
                     </div>
 
-                    <div class="control-group">
+                    <div class="form-group">
                         <!-- E-mail -->
-                        <label class="control-label" for="email">E-mail</label>
-                        <div class="controls">
-                            <input type="text" id="email" name="email" placeholder="" class="input-xlarge">
-                            <p class="help-block">Please provide your E-mail</p>
-                        </div>
+                        <label for="email">Адрес E-mail</label>
+                            <input type="text" id="email" name="email" placeholder="" class="form-control">
+                            <p class="help-block">Введите правильный email адрес</p>
                     </div>
-                    <div class="control-group">
-                        <!-- Homepage -->
-                        <label class="control-label" for="homepage">Homepage</label>
-                        <div class="controls">
-                            <input type="text" id="homepage" name="homepage" placeholder="" class="input-xlarge">
-                            <p class="help-block">Please provide your URL</p>
-                        </div>
-                    </div>
-                    <div class="control-group">
+                    <div class="form-group">
                         <!-- Password-->
-                        <label class="control-label" for="password">Password</label>
-                        <div class="controls">
-                            <input type="password" id="password" name="password" placeholder="" class="input-xlarge">
-                            <p class="help-block">Password should be at least 4 characters</p>
-                        </div>
+                        <label for="password">Пароль</label>
+                            <input type="password" id="password" name="password" placeholder="" class="form-control">
+                            <p class="help-block">Пароль должен быть не менее 4 символов</p>
+                    </div>
+                    <div class="form-group">
+                        <!-- Password-->
+                        <label for="password_confirm">Пароль (Подтверждение)</label>
+                        <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="form-control">
+                        <p class="help-block">Пожалуйста подтвердите пароль</p>
                     </div>
 
-                    <div class="control-group">
-                        <!-- Password -->
-                        <label class="control-label"  for="password_confirm">Password (Confirm)</label>
-                        <div class="controls">
-                            <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge">
-                            <p class="help-block">Please confirm password</p>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
+                    <div class="form-group">
                         <!-- Button -->
                         <div class="controls">
-                            <input type="submit">
-                            <button class="btn btn-success">Register</button>
+                            <button class="btn btn-success btn-block">Регистрация</button>
                         </div>
                     </div>
                 </fieldset>

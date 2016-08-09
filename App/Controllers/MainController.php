@@ -48,7 +48,6 @@ class MainController
     protected function actionSignup($request)
     {
         $request = $_POST;
-        var_dump($request);
         /*        if (!$_POST) {
                     return;
                 }

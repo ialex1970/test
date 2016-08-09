@@ -54,3 +54,4 @@
     </div>
 </div>
 <?php include_once 'includes/footer.php'?>
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi deserunt dolorum eaque est id labore modi nostrum numquam perspiciatis veritatis?
