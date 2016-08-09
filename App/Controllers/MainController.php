@@ -48,12 +48,12 @@ class MainController
     protected function actionSignup($request)
     {
         $request = $_POST;
-        /*        if (!$_POST) {
+               if (!$_POST) {
                     return;
                 }
                 $request = $_POST;
                 $user = new User($request);
-                $this->view->title = 'Регистрация';*/
+             
 
         $this->view->title = 'Регистрация';
         echo $this->view->display(__DIR__ . '/../templates/signup.php');

@@ -15,12 +15,12 @@
                         <p class="help-block">Имя пользователя должно содержать буквы и цифры</p>
                     </div>
 
-                    <div class="form-group">
+<!--                    <div class="form-group">
                         <!-- E-mail -->
-                        <label for="email">Адрес E-mail</label>
+                        <!--<label for="email">Адрес E-mail</label>
                             <input type="text" id="email" name="email" placeholder="" class="form-control">
                             <p class="help-block">Введите правильный email адрес</p>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <!-- Password-->
                         <label for="password">Пароль</label>
