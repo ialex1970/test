@@ -46,13 +46,16 @@ class Message extends Model
         }
     }
 
-    public function store($post, $id = null)
+    public function store()
     {
-        $this->name = $post['name'];
-        $this->email = $post['email'];
-        $this->message = $post['message'];
+        $this->name = $this->clean($_POST['name']);
+        if (strlen($this->name) < 3 or strlen($this->name) > 30) {
+            $err[] = "Логин должен быть не меньше 3-х символов и не больше 30";
+        }
+        $this->email = $this->clean($_POST['email']);
+        $this->message = $this->clean($_POST['message']);
         //$this->published_at = time();
-        $this->homepage = isset($post['homepage']) ? $post['homepage'] : '';
+        $this->homepage = isset($_POST['homepage']) ? $this->clean($_POST['homepage']) : '';
         $this->ip = ($_SERVER['REMOTE_ADDR'] == '::1') ? 'localhost' : $_SERVER['REMOTE_ADDR'];
         $user_agent = getenv('HTTP_USER_AGENT');;
         $this->browser = $this->user_browser($user_agent);
@@ -64,6 +67,16 @@ class Message extends Model
         }
         //$this->save();
         header('Location: http://guest.dev/');
+    }
+
+    private function clean($value = "")
+    {
+        $value = trim($value);
+        $value = stripslashes($value);
+        $value = strip_tags($value);
+        $value = htmlspecialchars($value);
+
+        return $value;
     }
 
     /**

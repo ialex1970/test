@@ -1,5 +1,4 @@
 <?php
-//var_dump($_GET);die;
 require __DIR__ . '/autoload.php';
 
 $url = $_SERVER['REQUEST_URI'];

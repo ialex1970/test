@@ -40,6 +40,7 @@ class MainController
 
     protected function actionEdit()
     {
+        //$id = (int)$_GET['id'];
         $this->view->title = 'Сообщения';
         $this->view->messages = \App\Models\Message::findAll();
         echo $this->view->display(__DIR__ . '/../templates/edit.php');
@@ -62,16 +63,16 @@ class MainController
         echo $this->view->display(__DIR__ . '/../templates/signup.php');
     }
 
+    /**
+     *
+     */
     public function actionSignin()
     {
         if ($_POST) {
             $user = new User();
-            if ($user->signin()){
-                session_start();
-                $_SESSION['user'] = $user;
-                //var_dump($_SESSION['user']->name);
+            if ($user->signin()) {
                 header('Location: http://guest.dev/');
-            }else{
+            } else {
                 $_SESSION['error'] = 'Неправильный логин или пароль';
             }
         }
@@ -79,23 +80,30 @@ class MainController
         echo $this->view->display(__DIR__ . '/../templates/signin.php');
     }
 
+    /**
+     * Выход и удаление сессии
+     */
     public function actionLogout()
     {
         session_start();
         unset($_SESSION['user']);
-            header('Location: http://guest.dev/');
+        header('Location: http://guest.dev/');
     }
 
     protected function actionNewMessage()
     {
-        session_start();
-        include("simple-php-captcha.php");
-        $_SESSION['captcha'] = simple_php_captcha();
+
 
         if ($_POST) {
-            $request = $_POST;
-            $message = new Message();
-            $message->store($request);
+            session_start();
+            if (strtolower($_SESSION['captcha']['code']) !== strtolower($_POST['captcha'])) {
+                $_SESSION['error'] = 'Вы неправильно ввели проверочный код';
+            } else {
+                //$request = $_POST;
+                $message = new Message();
+                $message->store();
+            }
+
         }
         $this->view->title = 'Новое сообщение';
         echo $this->view->display(__DIR__ . '/../templates/new.php');

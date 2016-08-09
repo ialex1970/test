@@ -48,7 +48,7 @@
     </div>
 
 </div>
-<div class="container">
+<div class="container link">
     <div class="row col-md-10 col-md-offset-1">
         <a href="index.php?action=NewMessage" class="btn btn-primary">Новое сообщение</a>
     </div>

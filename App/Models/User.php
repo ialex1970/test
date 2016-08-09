@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use App\Model;
@@ -11,11 +10,11 @@ class User extends Model
     public $password;
     private $user;
 
-    public function __construct()
-    {
-
-    }
-
+    /**
+     * Регистрация нового пользователя
+     *
+     * @return array
+     */
     public function signup()
     {
         if (!preg_match("/^[a-zA-Z0-9]+$/", trim($_POST['name']))) {
@@ -28,47 +27,39 @@ class User extends Model
             $err[] = 'Такой логин уже существует';
         }
         if ($_POST['password'] !== $_POST['password_confirm']) {
-            //var_dump('pass');
             $err[] = 'Пароли не совпадают';
         }
         if (strlen($_POST['password']) < 4) {
             $err[] = 'Пароль должен быть не меньше 4-х символов';
         }
-        //return $err;
+
         if (count($err) == 0) {
             $this->name = trim($_POST['name']);
             $this->password = md5(md5(trim($_POST['password'])));
             $this->save();
-            
+
         } else {
             return $err;
         }
     }
 
+    /**
+     * Вход
+     *
+     * @return bool
+     */
     public function signin()
     {
         $this->name = trim($_POST['name']);
-        $this->password = md5(md5($_POST['password']));
+        $this->password = md5(md5(trim($_POST['password'])));
         $this->user = $this->findByName($this->name);
-        //var_dump($this->user->name);
-        //var_dump($this->name);
 
-        if ($this->user->name === $this->name && $this->user->password == $this->password) {
+        if ($this->user->name === $this->name && $this->user->password === $this->password) {
+            session_start();
+            $_SESSION['user'] = $this->user;
             return true;
         } else {
             return false;
-        }
-    }
-
-    public function registr($request)
-    {
-        $this->name = $request['name'];
-        if ($request['password'] !== $request['password_confirm']) {
-            $_SESSION['error'] = 'Пароли не совпадают';
-            return false;
-        } else {
-            $this->password = $request['password'];
-            return $this->save();
         }
     }
 }

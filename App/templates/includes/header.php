@@ -41,7 +41,6 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-                <li class="active"><a href="index.php?action=Edit">Edit<span class="sr-only">(current)</span></a></li>
                <!--   <li><a href="#">Link</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
@@ -67,18 +66,20 @@
                 <li><a href="index.php?action=Signup"><?= isset($_SESSION['user']) ? '' : 'Регистрация' ?></a></li>
                 <li><a href="index.php?action=Signin"><?= isset($_SESSION['user']) ? '' : 'Вход' ?></a></li>
                 <?php if (isset($_SESSION['user'])): ?>
-                    <li><a href="index.php?action=Logout"><?= isset($_SESSION['user']) ? 'Выход' : '' ?></a></li>
                 <?php endif; ?>
+                <?php if (isset($_SESSION['user'])): ?>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <?= $_SESSION['user']->name ?><span class="caret"></span></a>
                     <ul class="dropdown-menu">
+                        <li class="active"><a href="index.php?action=Edit">Редактировать<span class="sr-only">(current)</span></a></li>
                         <li><a href="#">Action</a></li>
                         <li><a href="#">Another action</a></li>
                         <li><a href="#">Something else here</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
+                        <li><a href="index.php?action=Logout"><?= isset($_SESSION['user']) ? 'Выход' : '' ?></a></li>
                     </ul>
                 </li>
+                <?php endif; ?>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
