@@ -10,6 +10,7 @@ class MainController
 {
 
     protected $view;
+
     //protected $title;
 
     public function __construct()
@@ -37,7 +38,7 @@ class MainController
         $this->view->messages = \App\Models\Message::findAll();
         echo $this->view->display(__DIR__ . '/../templates/index.php');
     }
-    
+
     protected function actionEdit()
     {
 
@@ -49,8 +50,15 @@ class MainController
     protected function actionSignup()
     {
         if ($_POST) {
+            //var_dump($_POST);
             $user = new User();
-           $res = $user->registr($_POST);
+            $res = $user->validate($_POST);
+            if ($res !== null) {
+                $this->view->errors = $res;
+                //echo $this->view->display(__DIR__ . '/../templates/signup.php');
+            } else {
+                header('Location: http://guest.dev');
+            }
         }
 
 

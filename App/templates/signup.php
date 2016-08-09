@@ -1,15 +1,20 @@
 <?php include_once 'includes/header.php' ?>
 
 <div class="container">
-    <row>
+    <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <?= $_SESSION['user'] ?>
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <?php if (isset($_SESSION['error'])): ?>
+            <?php if ($this->errors): ?>
                 <div class="alert alert-danger">
-                    <?= $_SESSION['error'] ?>
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <?php foreach ($this->errors as $error): ?>
+                        <p><?= $error ?></p>
+                    <?php endforeach; ?>
                 </div>
             <?php endif; ?>
+        </div>
+    </div>
+    <row>
+        <div class="col-md-6 col-md-offset-3">
             <form class="form-horizontal" action='#' method="POST">
                 <fieldset>
                     <div id="legend">
@@ -18,7 +23,7 @@
                     <div class="form-group">
                         <!-- Username -->
                         <label for="name">Имя пользователя</label>
-                        <input type="text" id="name" name="name" placeholder="" class="form-control" required>
+                        <input type="text" value="<?= $_POST['name'] ?>" id="name" name="name" placeholder="" class="form-control" required>
                         <p class="help-block">Имя пользователя должно содержать буквы и цифры</p>
                     </div>
 
@@ -55,5 +60,5 @@
     </row>
 </div>
 
-<?php include_once 'includes/footer.php.php' ?>
+<?php include_once 'includes/footer.php' ?>
 

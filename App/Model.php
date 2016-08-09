@@ -30,6 +30,15 @@ abstract class Model
             return false;
         return $res[0];
     }
+    public static function findByName(string $name)
+    {
+        $db = Db::instance();
+        $sql = 'SELECT * FROM ' . static::TABLE . ' WHERE name = :name';
+        $res = $db->query($sql, static::class, [':name' => $name]);
+        if ($res == false)
+            return false;
+        return $res[0];
+    }
 
     public function isNew()
     {
