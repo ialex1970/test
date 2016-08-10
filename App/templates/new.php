@@ -6,16 +6,15 @@ $_SESSION['captcha'] = simple_php_captcha();
 <?php include_once 'includes/header.php' ?>
 <div class="container">
     <div class="row">
-        <?php if ($this->errors): ?>
-            <div class="alert alert-danger">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <?php foreach ($this->errors as $error): ?>
-                    <p><?= $error ?></p>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
-
         <div class="col-md-8 col-md-offset-2">
+            <?php if ($this->errors): ?>
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <?php foreach ($this->errors as $error): ?>
+                        <p><?= $error ?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
             <form id="new" action="#" method="post">
                 <div class="form-group">
                     <label for="name">Name</label>

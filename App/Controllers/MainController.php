@@ -92,16 +92,18 @@ class MainController
 
     protected function actionNewMessage()
     {
-
-
         if ($_POST) {
             session_start();
             if (strtolower($_SESSION['captcha']['code']) !== strtolower($_POST['captcha'])) {
                 $_SESSION['error'] = 'Вы неправильно ввели проверочный код';
             } else {
-                //$request = $_POST;
                 $message = new Message();
-                $message->store();
+                $res = $message->store();
+                if ($res !== null) {
+                $this->view->errors = $res;
+            } else {
+                header('Location: http://guest.dev');
+            }
             }
 
         }
@@ -118,10 +120,11 @@ class MainController
     protected function actionDelete()
     {
         $message = new Message();
-        $message->delete($_GET['id']);
+        if ($_GET['id']) {
+            $message->delete($_GET['id']);
+        }
         $this->view->messages = \App\Models\Message::findAll();
-        //$this->view->message = \App\Models\Message::findById($_GET['id']);
-        echo $this->view->display(__DIR__ . '/../templates/index.php');
+        header('Location: http://guest.dev/index.php?action=Edit');
     }
 
     protected function actionUpdate()

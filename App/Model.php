@@ -114,8 +114,9 @@ abstract class Model
         $db = Db::instance();
         $sql = 'DELETE FROM ' . static::TABLE . ' WHERE id = :id';
         $res = $db->query($sql, static::class, [':id' => $id]);
-        if ($res == false)
+        if ($res == false) {
             return false;
+        }
         return $res;
     }
 

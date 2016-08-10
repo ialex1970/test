@@ -51,8 +51,8 @@ class Message extends Model
      */
     public function store()
     {
-        //var_dump($_POST);
-        if (!preg_match("/^[a-zA-Z0-9]+$/", $_POST['name'])) {
+        $this->name = $this->clean($_POST['name']);
+        if (!preg_match("/^[a-zA-Z0-9]+$/", $this->name)) {
             $err[] = "Логин может состоять только из букв английского алфавита и цифр";
         }
         if (strlen($_POST['name']) < 3 or strlen($_POST['name']) > 30) {
@@ -60,11 +60,11 @@ class Message extends Model
         }
         $this->email = $this->clean($_POST['email']);
         if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
-            $err[] = "Неправильный email формат";
+            $err[] = "Неправильный email";
         }
         $this->homepage = isset($_POST['homepage']) ? $this->clean($_POST['homepage']) : '';
         if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $this->homepage)) {
-            $err = "Неправильный URL";
+            $err[] = "Неправильный URL";
         }
         $this->message = $this->clean($_POST['message']);
         //$this->published_at = time();
@@ -75,8 +75,8 @@ class Message extends Model
             if (isset($id)) {
                 $this->save((int)$id);
             } else {
-                //var_dump('before save');
                 $this->save();
+                header('Location: http://guest.dev/');
             }
 
         } else {
@@ -84,7 +84,6 @@ class Message extends Model
         }
 
         //$this->save();
-        header('Location: http://guest.dev/');
     }
 
     private function clean($value = "")
