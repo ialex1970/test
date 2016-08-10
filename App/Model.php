@@ -110,4 +110,9 @@ abstract class Model
         return $res;
     }
 
+    public function pagination()
+    {
+        
+    }
+
 }

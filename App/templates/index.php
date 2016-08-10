@@ -1,9 +1,9 @@
-<?php include_once 'includes/header.php'?>
+<?php include_once 'includes/header.php' ?>
 <div class="container">
     <row>
         <div class="col-md-10 col-md-offset-1">
             <h1>Гостевая книга</h1>
-            <table id="myTable" class="table table-striped tablesorter">
+            <table id="myTable" class="table table-striped">
                 <thead>
                 <tr>
                     <th class="header">Name</th>
@@ -11,7 +11,7 @@
                     <th class="header">Added</th>
                     <th class="header">Message</th>
                     <?php if (isset($_SESSION['user'])): ?>
-                    <th class="header">Action</th>
+                        <th class="header">Action</th>
                     <?php endif; ?>
                 </tr>
                 </thead>
@@ -26,15 +26,29 @@
                     <tr>
                         <th><?= $message->name ?></a></th>
                         <td><?= $message->email ?></td>
-                        <td><?=  $message->published_at ?></td>
+                        <td><?= $message->published_at ?></td>
                         <td><?= $message->message ?></td>
                         <?php if (isset($_SESSION['user'])): ?>
-                        <td><a href="index.php?action=Single&id=<?= $message->id ?>" class="btn btn-success">Edit</a></td>
+                            <td><a href="index.php?action=Single&id=<?= $message->id ?>"
+                                   class="btn btn-success">Edit</a></td>
                         <?php endif; ?>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
             </table>
+            <div class="text-center">
+                <ul class="pagination pagination-lg text-center">
+                    <?php if (count($this->numbers) > 25): ?>
+                        <?php for ($i = 1; $i <= count($this->numbers); $i++): ?>
+                            <?php if ($_GET['page'] == $i): ?>
+                                <li class="active"><a href="index.php?page=<?= $i ?> "><?= $i ?></a></li>
+                            <?php else: ?>
+                                <li><a href="index.php?page=<?= $i ?> "><?= $i ?></a></li>
+                            <?php endif; ?>
+                        <?php endfor; ?>
+                    <?php endif; ?>
+                </ul>
+            </div>
         </div>
     </row>
 
@@ -44,4 +58,4 @@
         <a href="index.php?action=NewMessage" class="btn btn-primary">Новое сообщение</a>
     </div>
 </div>
-<?php include_once 'includes/footer.php'?>
+<?php include_once 'includes/footer.php' ?>

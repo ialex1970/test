@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Exceptions\Core;
 use App\Models\Message;
+use App\Models\Pagination;
 use App\Models\User;
 use App\View;
 
@@ -30,8 +31,13 @@ class MainController
 
     protected function actionIndex()
     {
+        $pag = new Pagination();
+        $data = Message::findAll();;
+        $this->view->numbers = $pag->Paginate($data, 25);
+
+        $this->view->messages = $pag->fetchResult();
+
         $this->view->title = 'Сообщения';
-        $this->view->messages = \App\Models\Message::findAll();
         echo $this->view->display(__DIR__ . '/../templates/index.php');
     }
 
@@ -140,6 +146,11 @@ class MainController
         }
 
         //$this->view->message = \App\Models\Message::findById($id);
+    }
+
+    public function actionSearch()
+    {
+        var_dump($_GET);
     }
 
     public function actionProfile($id)

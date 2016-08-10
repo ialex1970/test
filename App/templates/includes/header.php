@@ -55,12 +55,12 @@
                     </ul>
                 </li>-->
             </ul>
-            <!--<form class="navbar-form navbar-left">
+            <form action="http://guest.dev/index.php?action=Search" method="get" class="navbar-form navbar-left">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input type="text" name="value" class="form-control" placeholder="Search">
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
-            </form>-->
+            </form>
             <ul class="nav navbar-nav navbar-right">
                 <?php session_start() ?>
                 <li><a href="index.php?action=Signup"><?= isset($_SESSION['user']) ? '' : 'Регистрация' ?></a></li>
