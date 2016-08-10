@@ -26,7 +26,7 @@ $_SESSION['captcha'] = simple_php_captcha();
                 </div>
                 <div class="form-group">
                     <label for="message">Message</label>
-                    <textarea class="form-control" name="message" id="message" required
+                    <textarea class="form-control" name="message" id="message"
                               rows="10"><?= $_POST['message'] ? $_POST['message'] : '' ?></textarea>
                 </div>
                 <div class="form-group">
