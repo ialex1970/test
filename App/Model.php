@@ -1,8 +1,8 @@
 <?php
-
 namespace App;
 
 use App\Db;
+use App\Exceptions\NotFound;
 
 abstract class Model
 {
@@ -27,7 +27,7 @@ abstract class Model
         $sql = 'SELECT * FROM ' . static::TABLE . ' WHERE id = :id';
         $res = $db->query($sql, static::class, [':id' => $id]);
         if ($res == false)
-            return false;
+            header('Location: http://guest.dev/page404.html');
         return $res[0];
     }
     public static function findByName(string $name)
@@ -36,7 +36,7 @@ abstract class Model
         $sql = 'SELECT * FROM ' . static::TABLE . ' WHERE name = :name';
         $res = $db->query($sql, static::class, [':name' => $name]);
         if ($res == false)
-            return false;
+           throw new NotFound('Not found');
         return $res[0];
     }
 
@@ -45,16 +45,6 @@ abstract class Model
         return empty($this->id);
 
     }
-
-    /*public function save($id=null) {
-        if ($this->isNew()) {
-            echo $id."update";die;
-            $this->update($id);
-        } else {
-            echo "insert";die;
-            $this->insert();
-        }
-    }*/
 
     /**
      * @param null $id

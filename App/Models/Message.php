@@ -49,7 +49,7 @@ class Message extends Model
     /**
      * @return array|string
      */
-    public function store()
+    public function store($id = null)
     {
         $this->name = $this->clean($_POST['name']);
         if (!preg_match("/^[a-zA-Z0-9]+$/", $this->name)) {
@@ -66,6 +66,7 @@ class Message extends Model
         if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $this->homepage)) {
             $err[] = "Неправильный URL";
         }
+        //var_dump($err);
         $this->message = $this->clean($_POST['message']);
         //$this->published_at = time();
         $this->ip = ($_SERVER['REMOTE_ADDR'] == '::1') ? 'localhost' : $_SERVER['REMOTE_ADDR'];

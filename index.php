@@ -7,6 +7,7 @@ $url = $_SERVER['REQUEST_URI'];
 $action = $_GET['action'] ?: 'Index';
 try {
     $controller->action($action);
-} catch (\App\Exceptions\Db $e) {
-    echo 'Что-то не так с базой: ' . $e->getMessage();
+} catch (\Exception $e) {
+    echo $e->getMessage();
+    //echo 'Что-то не так с базой: ' . $e->getMessage();
 }

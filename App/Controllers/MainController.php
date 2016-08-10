@@ -8,10 +8,7 @@ use App\View;
 
 class MainController
 {
-
     protected $view;
-
-    //protected $title;
 
     public function __construct()
     {
@@ -58,7 +55,6 @@ class MainController
             }
         }
 
-
         $this->view->title = 'Регистрация';
         echo $this->view->display(__DIR__ . '/../templates/signup.php');
     }
@@ -100,10 +96,10 @@ class MainController
                 $message = new Message();
                 $res = $message->store();
                 if ($res !== null) {
-                $this->view->errors = $res;
-            } else {
-                header('Location: http://guest.dev');
-            }
+                    $this->view->errors = $res;
+                } else {
+                    header('Location: http://guest.dev');
+                }
             }
 
         }
@@ -130,25 +126,19 @@ class MainController
     protected function actionUpdate()
     {
         $id = (int)$_GET['id'];
-        $this->view->message = \App\Models\Message::findById($id);
 
         if ($_POST) {
             $message = new Message();
-            $message->store($_POST, $_GET['id']);
-            header('Location: http://guest.dev/');
-            exit;
+            $res = $message->store($id);
+            if ($res !== null) {
+                $this->view->errors = $res;
+                $this->view->message = \App\Models\Message::findById($_GET['id']);
+                echo $this->view->display(__DIR__ . '/../templates/single.php');
+            } else {
+                header('Location: http://guest.dev/index.php?action=Edit');
+            }
         }
-        /*if($_POST) {
-            $this->view->article              = new News();
-            $this->view->article->id          = $id;
-            $this->view->article->title       = $_POST['title'];
-            $this->view->article->description = $_POST['description'];
-            $this->view->article->lead        = $_POST['lead'];
-            $this->view->article->author_id   = $_POST['author_id'];
-            $this->view->article->save( $id );
-            header( 'Location: http://localhost/profit/Admin/index.php' );
-            exit;
-        }*/
-        $this->view->display(__DIR__ . '/../../Admin/update.php');
+
+        //$this->view->message = \App\Models\Message::findById($id);
     }
 }
