@@ -35,6 +35,7 @@ class Db
 
         $sth = $this->_dbh->prepare($sql);
         $res = $sth->execute($params);             //Возвращает boolean
+        var_dump($params);
         if(!$res) {
             $ex = new \App\Exceptions\Db('Исключение');
             throw $ex;

@@ -46,25 +46,43 @@ class Message extends Model
         }
     }
 
+    /**
+     * @return array|string
+     */
     public function store()
     {
-        $this->name = $this->clean($_POST['name']);
-        if (strlen($this->name) < 3 or strlen($this->name) > 30) {
+        //var_dump($_POST);
+        if (!preg_match("/^[a-zA-Z0-9]+$/", $_POST['name'])) {
+            $err[] = "Логин может состоять только из букв английского алфавита и цифр";
+        }
+        if (strlen($_POST['name']) < 3 or strlen($_POST['name']) > 30) {
             $err[] = "Логин должен быть не меньше 3-х символов и не больше 30";
         }
         $this->email = $this->clean($_POST['email']);
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            $err[] = "Неправильный email формат";
+        }
+        $this->homepage = isset($_POST['homepage']) ? $this->clean($_POST['homepage']) : '';
+        if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $this->homepage)) {
+            $err = "Неправильный URL";
+        }
         $this->message = $this->clean($_POST['message']);
         //$this->published_at = time();
-        $this->homepage = isset($_POST['homepage']) ? $this->clean($_POST['homepage']) : '';
         $this->ip = ($_SERVER['REMOTE_ADDR'] == '::1') ? 'localhost' : $_SERVER['REMOTE_ADDR'];
         $user_agent = getenv('HTTP_USER_AGENT');;
         $this->browser = $this->user_browser($user_agent);
+        if (count($err) == 0) {
+            if (isset($id)) {
+                $this->save((int)$id);
+            } else {
+                //var_dump('before save');
+                $this->save();
+            }
 
-        if (isset($id)) {
-            $this->save((int)$id);
         } else {
-            $this->save();
+            return $err;
         }
+
         //$this->save();
         header('Location: http://guest.dev/');
     }
