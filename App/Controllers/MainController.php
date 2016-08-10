@@ -141,4 +141,9 @@ class MainController
 
         //$this->view->message = \App\Models\Message::findById($id);
     }
+
+    public function actionProfile($id)
+    {
+        $id = $_SESSION['user']->id;
+    }
 }
