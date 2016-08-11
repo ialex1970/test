@@ -95,6 +95,7 @@ class MainController
     protected function actionNewMessage()
     {
         if ($_POST) {
+            //var_dump($_FILES);
             session_start();
             if (strtolower($_SESSION['captcha']['code']) !== strtolower($_POST['captcha'])) {
                 $_SESSION['error'] = 'Вы неправильно ввели проверочный код';

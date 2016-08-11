@@ -2,7 +2,7 @@
 <div class="container">
     <row>
         <div class="col-md-10 col-md-offset-1">
-            <h1>Гостевая книга</h1>
+            <h1 class="text-center page-header">Гостевая книга</h1>
             <table id="myTable" class="table table-striped">
                 <thead>
                 <tr>

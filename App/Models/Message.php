@@ -47,14 +47,19 @@ class Message extends Model
     }
 
     /**
+     * Добавление или обновление записи в таблицу messages
+     *
      * @return array|string
      */
     public function store($id = null)
     {
+        // Валидация имени пользователя. Разрешены буквы латинского алфавита и цифры. Пробелы недопустимы.
         $this->name = $this->clean($_POST['name']);
         if (!preg_match("/^[a-zA-Z0-9]+$/", $this->name)) {
             $err[] = "Логин может состоять только из букв английского алфавита и цифр";
         }
+
+        // Валидация на корректность адреса эл. почты
         if (strlen($_POST['name']) < 3 or strlen($_POST['name']) > 30) {
             $err[] = "Логин должен быть не меньше 3-х символов и не больше 30";
         }
@@ -62,16 +67,33 @@ class Message extends Model
         if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             $err[] = "Неправильный email";
         }
-        $this->homepage = isset($_POST['homepage']) ? $this->clean($_POST['homepage']) : '';
-        if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $this->homepage)) {
-            $err[] = "Неправильный URL";
+
+        // Если введен url, то проверка на корректность.
+        if (empty($_POST['homepage'])) {
+            $this->homepage = '';
+        } else {
+            $this->homepage = $this->clean($_POST['homepage']);
+            if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $this->homepage)) {
+                $err[] = "Неправильный URL";
+            }
         }
+
+        // Проверка загружаемого файла
+        //$uploadfile = "uploads/".$_FILES['file']['name'];
+        //var_dump($uploadfile);die();
+        //move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
         //var_dump($err);
-        $this->message = $this->clean($_POST['message']);
-        //$this->published_at = time();
+
+
+        // Закрываем теги
+        $this->message = $this->closetags($_POST['message']);
+
+        //Определяем ip пользователя. Если ::1, по заносим в базу, как локалхост
         $this->ip = ($_SERVER['REMOTE_ADDR'] == '::1') ? 'localhost' : $_SERVER['REMOTE_ADDR'];
         $user_agent = getenv('HTTP_USER_AGENT');;
         $this->browser = $this->user_browser($user_agent);
+
+        // Если ошибок нет, то сохраняем в базу
         if (count($err) == 0) {
             if (isset($id)) {
                 $this->save((int)$id);
@@ -84,9 +106,14 @@ class Message extends Model
             return $err;
         }
 
-        //$this->save();
     }
 
+    /**
+     * Убираем теги, пробелы.....
+     * 
+     * @param string $value
+     * @return string
+     */
     private function clean($value = "")
     {
         $value = trim($value);
@@ -95,6 +122,33 @@ class Message extends Model
         $value = htmlspecialchars($value);
 
         return $value;
+    }
+
+    /**
+     * Закрываем теги
+     * 
+     * @param $html
+     * @return string
+     */
+    private function closetags($html)
+    {
+        preg_match_all('#<(?!meta|img|br|hr|input\b)\b([a-z]+)(?: .*)?(?<![/|/ ])>#iU', $html, $result);
+        $openedtags = $result[1];
+        preg_match_all('#</([a-z]+)>#iU', $html, $result);
+        $closedtags = $result[1];
+        $len_opened = count($openedtags);
+        if (count($closedtags) == $len_opened) {
+            return $html;
+        }
+        $openedtags = array_reverse($openedtags);
+        for ($i = 0; $i < $len_opened; $i++) {
+            if (!in_array($openedtags[$i], $closedtags)) {
+                $html .= '</' . $openedtags[$i] . '>';
+            } else {
+                unset($closedtags[array_search($openedtags[$i], $closedtags)]);
+            }
+        }
+        return $html;
     }
 
     /**
@@ -122,6 +176,5 @@ class Message extends Model
         if (!$browser && strpos($agent, 'Gecko')) return 'Browser based on Gecko'; // для неопознанных браузеров проверяем, если они на движке Gecko, и возращаем сообщение об этом
         return $browser . ' ' . $version; // для всех остальных возвращаем браузер и версию
     }
-
 
 }

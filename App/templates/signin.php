@@ -13,7 +13,7 @@
     </div>
     <row>
         <div class="col-md-6 col-md-offset-3">
-            <form class="form-horizontal" action='#' method="POST">
+            <form id="form" class="form-horizontal" action='#' method="POST" data-parsley-validate = ''>
                 <fieldset>
                     <div id="legend">
                         <legend class="">Вход</legend>
@@ -21,14 +21,14 @@
                     <div class="form-group">
                         <!-- Username -->
                         <label for="name">Имя пользователя</label>
-                        <input type="text" value="<?= $_POST['name'] ?>" id="name" name="name" placeholder="" class="form-control" required>
+                        <input type="text" value="<?= $_POST['name'] ?>" id="name" name="name" placeholder="" class="form-control" >
                         <p class="help-block">Имя пользователя должно содержать буквы и цифры</p>
                     </div>
                     <div class="form-group">
                         <!-- Password-->
                         <label for="password">Пароль</label>
                         <input type="password" id="password" name="password" placeholder="" class="form-control"
-                               required>
+                               >
                         <p class="help-block">Пароль должен быть не менее 4 символов</p>
                     </div>
 

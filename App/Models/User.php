@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use App\Model;
@@ -62,7 +63,8 @@ class User extends Model
             return false;
         }
     }
-
+    
+// TODO реализовать профиль
     public function profile()
     {
         
