@@ -10,16 +10,16 @@
         </div>
         <?php endif; ?>
 
-        <h1>Гостевая книга</h1>
-        <table id="myTable" class="table table-striped sortable">
+        <h1 class="page-header text-center">Гостевая книга</h1>
+        <table id="table" class="table table-striped tablesorter">
             <thead>
             <tr>
                 <th>Name</th>
-                <th class="header">Email</th>
-                <th class="header">Added</th>
-                <th class="header nosort">Message</th>
+                <th>Email</th>
+                <th  width="150px">Added</th>
+                <th class="sorter-false">Message</th>
                 <?php if (isset($_SESSION['user'])): ?>
-                    <th class="nosort">Action</th>
+                    <th></th>Action</th>
                 <?php endif; ?>
             </tr>
             </thead>
@@ -32,18 +32,19 @@
                                 </tr>-->
             <?php foreach ($this->messages as $message): ?>
                 <tr>
-                    <th><?= $message->name ?></a></th>
+                    <td><?= $message->name ?></td>
                     <td><?= $message->email ?></td>
                     <td><?= $message->published_at ?></td>
                     <td><?= $message->message ?></td>
                     <?php if (isset($_SESSION['user'])): ?>
-                        <td><a href="index.php?action=Single&id=<?= $message->id ?>"
+                        <td><a href="index.php?action=Single&amp;id=<?= $message->id ?>"
                                class="btn btn-success">Edit</a></td>
                     <?php endif; ?>
                 </tr>
             <?php endforeach; ?>
             </tbody>
         </table>
+
         <div class="text-center">
             <ul class="pagination pagination-lg text-center">
                 <?php if (count($this->numbers) > 25): ?>
@@ -63,7 +64,7 @@
 </div>
 <div class="container link">
     <div class="row col-md-10 col-md-offset-1">
-        <a href="index.php?action=NewMessage" class="btn btn-primary">Новое сообщение</a>
+        <a href="index.php?action=NewMessage" class="btn btn-default btn-sm">Новое сообщение</a>
     </div>
 </div>
 <?php include_once 'includes/footer.php' ?>

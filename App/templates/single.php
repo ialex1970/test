@@ -12,7 +12,7 @@
                 </div>
             <?php endif; ?>
 
-            <form action="index.php?action=Update&id=<?= $this->message->id ?>" method="post">
+            <form action="index.php?action=Update&amp;id=<?= $this->message->id ?>" method="post">
                 <fieldset>
                     <legend>Редактировать сообщение</legend>
                     <div class="form-group">
@@ -51,7 +51,7 @@
                                id="browser" disabled>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
-                    <a href="index.php?action=Delete&id=<?= $this->message->id ?>" class="btn btn-danger">Delete</a>
+                    <a href="index.php?action=Delete&amp;id=<?= $this->message->id ?>" class="btn btn-danger">Delete</a>
                 </fieldset>
             </form>
         </div>

@@ -21,7 +21,7 @@
                                     </tr>-->
                 <?php foreach ($this->messages as $message): ?>
                     <tr>
-                        <td><a href="index.php?action=Single&id=<?= $message->id ?>"><?= $message->name ?></a></td>
+                        <td><a href="index.php?action=Single&amp;id=<?= $message->id ?>"><?= $message->name ?></a></td>
                         <td><?= $message->email ?></td>
                         <td><?=  $message->published_at ?></td>
                         <td><?= $message->message ?></td>

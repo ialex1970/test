@@ -9,13 +9,16 @@ abstract class Model
     const TABLE = '';
     public $id;
     public $message;
+    //public $dir = 'DESC';
+    //public $sort_fields = ['name', 'email'];
 
     public static function findAll()
     {
         $db = Db::instance();
         return $db->query(
-            'SELECT * FROM ' . static::TABLE,
+            'SELECT * FROM ' . static::TABLE . ' ORDER BY published_at DESC',
             static::class);
+
     }
 
     /**
