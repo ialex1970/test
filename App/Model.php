@@ -8,6 +8,7 @@ abstract class Model
 {
     const TABLE = '';
     public $id;
+    public $message;
 
     public static function findAll()
     {
@@ -110,9 +111,17 @@ abstract class Model
         return $res;
     }
 
-    public function pagination()
+    public static function search()
     {
-        
+        $db = Db::instance();
+        $sql = "SELECT * FROM " . static::TABLE . " WHERE message LIKE '%".strtoupper($_POST['value'])."%'";
+        //var_dump($sql);die();
+        $res = $db->query($sql, static::class, [':message' => $message]);
+        if ($res == false)
+            throw new \Exception('Извините, поиск ничего не дал');
+            //header('Location: http://guest.dev/page404.html');
+        return $res;
     }
+
 
 }

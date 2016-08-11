@@ -55,9 +55,9 @@
                     </ul>
                 </li>-->
             </ul>
-            <form action="http://guest.dev/index.php?action=Search" method="get" class="navbar-form navbar-left">
+            <form action="index.php?action=Search" method="post" class="navbar-form navbar-left">
                 <div class="form-group">
-                    <input type="text" name="value" class="form-control" placeholder="Search">
+                    <input type="text" name="value" class="form-control" placeholder="Поиск по сообщениям">
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>
@@ -65,14 +65,12 @@
                 <?php session_start() ?>
                 <li><a href="index.php?action=Signup"><?= isset($_SESSION['user']) ? '' : 'Регистрация' ?></a></li>
                 <li><a href="index.php?action=Signin"><?= isset($_SESSION['user']) ? '' : 'Вход' ?></a></li>
-                <?php if (isset($_SESSION['user'])): ?>
-                <?php endif; ?>
+                
                 <?php if (isset($_SESSION['user'])): ?>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <?= $_SESSION['user']->name ?><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li class="active"><a href="index.php?action=Edit">Редактировать<span class="sr-only">(current)</span></a></li>
-                        <li><a href="#">Профиль</a></li>
+                        <li><a href="index.php?action=Profile">Профиль</a></li>
                         <li><a href="#">Another action</a></li>
                         <li><a href="#">Something else here</a></li>
                         <li role="separator" class="divider"></li>

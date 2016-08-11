@@ -150,11 +150,20 @@ class MainController
 
     public function actionSearch()
     {
-        var_dump($_GET);
+        //var_dump($_POST);
+        $message = new Message();
+        $this->view->messages = $message->search();
+     
+        echo $this->view->display(__DIR__ . '/../templates/index.php');
     }
 
     public function actionProfile($id)
     {
+        session_start();
         $id = $_SESSION['user']->id;
+        $user = new User();
+        $this->view->user = $user->findById($id);
+        var_dump($this->view->user);
+
     }
 }

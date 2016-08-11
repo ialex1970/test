@@ -64,3 +64,6 @@ span.date {
     font-size: 12px;
     color: gray;
 }
+.navbar-form .form-control {
+    width: 175px;
+}
