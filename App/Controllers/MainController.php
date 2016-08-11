@@ -29,6 +29,7 @@ class MainController
 
     }
 
+
     protected function actionIndex()
     {
         $pag = new Pagination();
@@ -65,9 +66,6 @@ class MainController
         echo $this->view->display(__DIR__ . '/../templates/signup.php');
     }
 
-    /**
-     *
-     */
     public function actionSignin()
     {
         if ($_POST) {
@@ -149,12 +147,18 @@ class MainController
         //$this->view->message = \App\Models\Message::findById($id);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function actionSearch()
     {
         //var_dump($_POST);
         $message = new Message();
-        $this->view->messages = $message->search();
-     
+        try {
+            $this->view->messages = $message->search();
+        } catch (\Exception $e) {
+            $this->view->errors = 'Ничего не найдено';
+        }
         echo $this->view->display(__DIR__ . '/../templates/index.php');
     }
 
