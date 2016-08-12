@@ -93,7 +93,7 @@ class MainController
     protected function actionNewMessage()
     {
         if ($_POST) {
-            //var_dump($_FILES);
+            //var_dump($_POST);
             session_start();
             if (strtolower($_SESSION['captcha']['code']) !== strtolower($_POST['captcha'])) {
                 $_SESSION['error'] = 'Вы неправильно ввели проверочный код';
@@ -118,6 +118,7 @@ class MainController
     protected function actionSingle()
     {
         $this->view->message = \App\Models\Message::findById($_GET['id']);
+
         echo $this->view->display(__DIR__ . '/../templates/single.php');
     }
 
@@ -134,8 +135,8 @@ class MainController
     protected function actionUpdate()
     {
         $id = (int)$_GET['id'];
-
         if ($_POST) {
+            //var_dump($_FILES);
             $message = new Message();
             $res = $message->store($id);
             if ($res !== null) {
@@ -143,7 +144,7 @@ class MainController
                 $this->view->message = \App\Models\Message::findById($_GET['id']);
                 echo $this->view->display(__DIR__ . '/../templates/single.php');
             } else {
-                header('Location: http://guest.dev/index.php?action=Edit');
+                header('Location: http://guest.dev/index.php');
             }
         }
 
@@ -171,7 +172,7 @@ class MainController
         $id = $_SESSION['user']->id;
         $user = new User();
         $this->view->user = $user->findById($id);
-        var_dump($this->view->user);
+        //var_dump($this->view->user);
 
     }
 }

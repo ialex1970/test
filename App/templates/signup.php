@@ -23,7 +23,6 @@
                     <div class="form-group">
                         <!-- Username -->
                         <label for="name">Имя пользователя</label>
-                        <?php var_dump(isset($_POST['name'])) ?>
                         <input type="text" value="<?= isset($_POST['name']) ? $_POST['name'] : ''?>" id="name" name="name" placeholder="" class="form-control" required>
                         <p class="help-block">Имя пользователя должно содержать буквы и цифры</p>
                     </div>

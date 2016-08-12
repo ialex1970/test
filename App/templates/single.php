@@ -12,7 +12,7 @@
                 </div>
             <?php endif; ?>
 
-            <form action="index.php?action=Update&amp;id=<?= $this->message->id ?>" method="post">
+            <form action="index.php?action=Update&amp;id=<?= $this->message->id ?>" method="post" enctype="multipart/form-data">
                 <fieldset>
                     <legend>Редактировать сообщение</legend>
                     <div class="form-group">

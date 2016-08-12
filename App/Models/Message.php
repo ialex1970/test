@@ -16,6 +16,7 @@ class Message extends Model
     public $homepage;
     public $ip;
     public $browser;
+    public $file;
     //public $published_at;
 
 
@@ -73,17 +74,12 @@ class Message extends Model
             $this->homepage = '';
         } else {
             $this->homepage = $this->clean($_POST['homepage']);
-            if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $this->homepage)) {
+            if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",
+                $this->homepage)
+            ) {
                 $err[] = "Неправильный URL";
             }
         }
-
-        // Проверка загружаемого файла
-        //$uploadfile = "uploads/".$_FILES['file']['name'];
-        //var_dump($uploadfile);die();
-        //move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
-        //var_dump($err);
-
 
         // Закрываем теги
         $this->message = $this->closetags($_POST['message']);
@@ -92,8 +88,26 @@ class Message extends Model
         $this->ip = ($_SERVER['REMOTE_ADDR'] == '::1') ? 'localhost' : $_SERVER['REMOTE_ADDR'];
         $user_agent = getenv('HTTP_USER_AGENT');;
         $this->browser = $this->user_browser($user_agent);
-
-        //var_dump($_FILES);
+        // Проверка загружаемого файла
+        $this->file = isset($_FILES['name']) ? $_FILES : null;
+        $file_type = $this->file['file']['type'];
+        if (isset($file_type)) {
+            if ($file_type != 'image/gif' and $file_type != 'image/png' and $file_type != 'image/jpg' and $file_type != 'plain/text') {
+                $err[] = 'Неправильный формат файла';
+            }
+            var_dump(getimagesize($_FILES));
+            if ($_FILES['file']['size'] >= 100000) {
+                $err[] = 'Слишком большой файл';
+            }
+        }
+        //var_dump($file_type);
+        $uploadfile = "uploads/".$_FILES['file']['name'];
+        //var_dump($uploadfile);die();
+        move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
+        $this->file = $uploadfile;
+        //var_dump($err);
+        ////var_dump($_FILES);
+        
         // Если ошибок нет, то сохраняем в базу
         if (count($err) == 0) {
             if (isset($id)) {
@@ -101,9 +115,7 @@ class Message extends Model
             } else {
                 $this->save();
 
-                $id = $this->findByName($this->name)->id;
-                $file = new File
-                var_dump($id);
+
                 header('Location: http://guest.dev/');
             }
         } else {
@@ -114,7 +126,7 @@ class Message extends Model
 
     /**
      * Убираем теги, пробелы.....
-     * 
+     *
      * @param string $value
      * @return string
      */
@@ -130,7 +142,7 @@ class Message extends Model
 
     /**
      * Закрываем теги
-     * 
+     *
      * @param $html
      * @return string
      */
@@ -163,21 +175,35 @@ class Message extends Model
      */
     function user_browser($agent)
     {
-        preg_match("/(MSIE|Opera|Firefox|Chrome|Version|Opera Mini|Netscape|Konqueror|SeaMonkey|Camino|Minefield|Iceweasel|K-Meleon|Maxthon)(?:\/| )([0-9.]+)/", $agent, $browser_info); // регулярное выражение, которое позволяет отпределить 90% браузеров
+        preg_match("/(MSIE|Opera|Firefox|Chrome|Version|Opera Mini|Netscape|Konqueror|SeaMonkey|Camino|Minefield|Iceweasel|K-Meleon|Maxthon)(?:\/| )([0-9.]+)/",
+            $agent, $browser_info); // регулярное выражение, которое позволяет отпределить 90% браузеров
         list(, $browser, $version) = $browser_info; // получаем данные из массива в переменную
-        if (preg_match("/Opera ([0-9.]+)/i", $agent, $opera)) return 'Opera ' . $opera[1]; // определение _очень_старых_ версий Оперы (до 8.50), при желании можно убрать
+        if (preg_match("/Opera ([0-9.]+)/i", $agent, $opera)) {
+            return 'Opera ' . $opera[1];
+        } // определение _очень_старых_ версий Оперы (до 8.50), при желании можно убрать
         if ($browser == 'MSIE') { // если браузер определён как IE
             preg_match("/(Maxthon|Avant Browser|MyIE2)/i", $agent, $ie); // проверяем, не разработка ли это на основе IE
-            if ($ie) return $ie[1] . ' based on IE ' . $version; // если да, то возвращаем сообщение об этом
+            if ($ie) {
+                return $ie[1] . ' based on IE ' . $version;
+            } // если да, то возвращаем сообщение об этом
             return 'IE ' . $version; // иначе просто возвращаем IE и номер версии
         }
         if ($browser == 'Firefox') { // если браузер определён как Firefox
-            preg_match("/(Flock|Navigator|Epiphany)\/([0-9.]+)/", $agent, $ff); // проверяем, не разработка ли это на основе Firefox
-            if ($ff) return $ff[1] . ' ' . $ff[2]; // если да, то выводим номер и версию
+            preg_match("/(Flock|Navigator|Epiphany)\/([0-9.]+)/", $agent,
+                $ff); // проверяем, не разработка ли это на основе Firefox
+            if ($ff) {
+                return $ff[1] . ' ' . $ff[2];
+            } // если да, то выводим номер и версию
         }
-        if ($browser == 'Opera' && $version == '9.80') return 'Opera ' . substr($agent, -5); // если браузер определён как Opera 9.80, берём версию Оперы из конца строки
-        if ($browser == 'Version') return 'Safari ' . $version; // определяем Сафари
-        if (!$browser && strpos($agent, 'Gecko')) return 'Browser based on Gecko'; // для неопознанных браузеров проверяем, если они на движке Gecko, и возращаем сообщение об этом
+        if ($browser == 'Opera' && $version == '9.80') {
+            return 'Opera ' . substr($agent, -5);
+        } // если браузер определён как Opera 9.80, берём версию Оперы из конца строки
+        if ($browser == 'Version') {
+            return 'Safari ' . $version;
+        } // определяем Сафари
+        if (!$browser && strpos($agent, 'Gecko')) {
+            return 'Browser based on Gecko';
+        } // для неопознанных браузеров проверяем, если они на движке Gecko, и возращаем сообщение об этом
         return $browser . ' ' . $version; // для всех остальных возвращаем браузер и версию
     }
 
