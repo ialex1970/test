@@ -101,10 +101,7 @@ class MainController
                 $message = new Message();
                 $res = $message->store();
 //*******************
-                if($_FILES['file']['type'] != "image/gif" || $_FILES['file']['type'] != "image/png" || $_FILES['file']['type'] != "image/jpg") {
-                    echo "Sorry, we only allow uploading GIF images";
-                    exit;
-                }
+                
 //*******************
                 if ($res !== null) {
                     $this->view->errors = $res;

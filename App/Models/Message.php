@@ -93,15 +93,19 @@ class Message extends Model
         $user_agent = getenv('HTTP_USER_AGENT');;
         $this->browser = $this->user_browser($user_agent);
 
+        //var_dump($_FILES);
         // Если ошибок нет, то сохраняем в базу
         if (count($err) == 0) {
             if (isset($id)) {
                 $this->save((int)$id);
             } else {
                 $this->save();
+
+                $id = $this->findByName($this->name)->id;
+                $file = new File
+                var_dump($id);
                 header('Location: http://guest.dev/');
             }
-
         } else {
             return $err;
         }
