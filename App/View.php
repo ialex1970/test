@@ -17,6 +17,7 @@ class View {
     }
 
     public function __get( $name ) {
+        if ($name)
         return $this->data[$name];
     }
 

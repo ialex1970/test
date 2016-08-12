@@ -9,7 +9,7 @@
 <script>
     $(document).ready(function()
         {
-            $("#table").tablesorter({headers: {3: { sorter: false}}});
+            $("#table").tablesorter({headers: {3: { sorter: false}, 4: { sorter: false}}});
         }
     );
 </script>

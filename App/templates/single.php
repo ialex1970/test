@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
 
-            <?php if ($this->errors): ?>
+            <?php if (isset($this->errors)): ?>
                 <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <?php foreach ($this->errors as $error): ?>
@@ -28,7 +28,7 @@
 
                     <div class="form-group">
                         <label for="homepage">Home Page</label>
-                        <input type="text" value="<?= $this->message->homepage ?>" class="form-control" name="homepage"
+                        <input type="text" value="<?= $this->message->homepage ?: ''  ?>" class="form-control" name="homepage"
                                id="homepage">
                     </div>
                     <div class="form-group">

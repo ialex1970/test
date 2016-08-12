@@ -34,10 +34,10 @@ class MainController
     {
         $pag = new Pagination();
         $data = Message::findAll();;
-        $this->view->numbers = $pag->Paginate($data, 25);
+        $this->view->numbers = $pag->Paginate($data, 10);
+
 
         $this->view->messages = $pag->fetchResult();
-
         $this->view->title = 'Сообщения';
         echo $this->view->display(__DIR__ . '/../templates/index.php');
     }
@@ -100,6 +100,12 @@ class MainController
             } else {
                 $message = new Message();
                 $res = $message->store();
+//*******************
+                if($_FILES['file']['type'] != "image/gif" || $_FILES['file']['type'] != "image/png" || $_FILES['file']['type'] != "image/jpg") {
+                    echo "Sorry, we only allow uploading GIF images";
+                    exit;
+                }
+//*******************
                 if ($res !== null) {
                     $this->view->errors = $res;
                 } else {

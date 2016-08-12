@@ -3,7 +3,7 @@
     <row>
         <div class="col-md-10 col-md-offset-1">
 
-        <?php if ($this->errors): ?>
+        <?php if (isset($this->errors)): ?>
         <div class="alert alert-danger">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <p><?= $this->errors ?></p>
@@ -14,12 +14,12 @@
         <table id="table" class="table table-striped tablesorter">
             <thead>
             <tr>
-                <th>Name</th>
+                <th width="100px">Name</th>
                 <th>Email</th>
                 <th  width="150px">Added</th>
                 <th class="sorter-false">Message</th>
                 <?php if (isset($_SESSION['user'])): ?>
-                    <th></th>Action</th>
+                    <th class="sorter-false">Action</th>
                 <?php endif; ?>
             </tr>
             </thead>
@@ -47,7 +47,7 @@
 
         <div class="text-center">
             <ul class="pagination pagination-lg text-center">
-                <?php if (count($this->numbers) > 25): ?>
+                <?php if (count($this->numbers) < 10): ?>
                     <?php for ($i = 1; $i <= count($this->numbers); $i++): ?>
                         <?php if ($_GET['page'] == $i): ?>
                             <li class="active"><a href="index.php?page=<?= $i ?> "><?= $i ?></a></li>

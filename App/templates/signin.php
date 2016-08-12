@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <?php if ($_SESSION['error']): ?>
+            <?php if (isset($_SESSION['error'])): ?>
                 <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <p><?= $_SESSION['error'] ?></p>
@@ -21,7 +21,7 @@
                     <div class="form-group">
                         <!-- Username -->
                         <label for="name">Имя пользователя</label>
-                        <input type="text" value="<?= $_POST['name'] ?>" id="name" name="name" placeholder="" class="form-control" >
+                        <input type="text" value="<?= isset($_POST['name']) ? $_POST['name'] : ''?>" id="name" name="name" placeholder="" class="form-control" >
                         <p class="help-block">Имя пользователя должно содержать буквы и цифры</p>
                     </div>
                     <div class="form-group">
