@@ -67,6 +67,16 @@ span.date {
 .navbar-form .form-control {
     width: 175px;
 }
+div#image {
+    margin-bottom: 10px;
+}
+a > span.delete {
+    color: darkred;
+    margin-left: 20px;
+}
+#image a {
+    text-decoration: none;
+}
 
 /* tables */
 table.tablesorter {

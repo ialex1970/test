@@ -21,6 +21,7 @@ class MainController
     {
         $methodName = 'action' . $action;
         $this->beforeAction();
+
         return $this->$methodName();
     }
 
@@ -101,7 +102,7 @@ class MainController
                 $message = new Message();
                 $res = $message->store();
 //*******************
-                
+
 //*******************
                 if ($res !== null) {
                     $this->view->errors = $res;
@@ -124,20 +125,38 @@ class MainController
 
     protected function actionDelete()
     {
-        $message = new Message();
+
         if ($_GET['id']) {
+            $message = Message::findById($_GET['id']);
+
+            if ($message->file) {
+                unlink($message->file);
+            }
             $message->delete($_GET['id']);
         }
-        $this->view->messages = \App\Models\Message::findAll();
+        //$this->view->messages = \App\Models\Message::findAll();
         header('Location: http://guest.dev/index.php?action=Edit');
     }
+
+protected function actionDeleteFile()
+{
+    $message = Message::findById($_GET['id']);
+    unlink($message->file);
+    header('Location: http://guest.dev/index.php?action=Single'); //TODO Исправить редирект
+}
 
     protected function actionUpdate()
     {
         $id = (int)$_GET['id'];
         if ($_POST) {
             //var_dump($_FILES);
-            $message = new Message();
+            //$message = new Message();
+            $message = Message::findById($id);
+            //var_dump($message->file);
+            if ($message->file) {
+                //var_dump('Ok'); die();
+                unlink($message->file);
+            }
             $res = $message->store($id);
             if ($res !== null) {
                 $this->view->errors = $res;

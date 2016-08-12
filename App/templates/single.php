@@ -2,8 +2,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-
-            <?php if (isset($this->errors)): ?>
+            <?php if ($this->errors): ?>
                 <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <?php foreach ($this->errors as $error): ?>
@@ -12,7 +11,8 @@
                 </div>
             <?php endif; ?>
 
-            <form action="index.php?action=Update&amp;id=<?= $this->message->id ?>" method="post" enctype="multipart/form-data">
+            <form action="index.php?action=Update&amp;id=<?= $this->message->id ?>" method="post"
+                  enctype="multipart/form-data">
                 <fieldset>
                     <legend>Редактировать сообщение</legend>
                     <div class="form-group">
@@ -28,7 +28,8 @@
 
                     <div class="form-group">
                         <label for="homepage">Home Page</label>
-                        <input type="text" value="<?= $this->message->homepage ?: ''  ?>" class="form-control" name="homepage"
+                        <input type="text" value="<?= $this->message->homepage ?: '' ?>" class="form-control"
+                               name="homepage"
                                id="homepage">
                     </div>
                     <div class="form-group">
@@ -36,6 +37,13 @@
                     <textarea class="form-control" name="message" id="message"
                               rows="10"><?= $this->message->message ?></textarea>
                     </div>
+
+                    <?php if ($this->message->file && preg_match('([^\s]+(\.(?i)(jpg|png|gif))$)', $this->message->file)): ?>
+                        <div id="image">
+                            <img src="<?= $this->message->file ?>" alt="image"><a href="index.php?action=DeleteFile&amp;id=<?= $this->message->id ?>" title="удалить"><span class="glyphicon glyphicon-remove delete"></span></a>
+                        </div>
+                    <?php endif; ?>
+
                     <div class="form-group">
                         <label for="file">File input</label>
                         <input type="file" name="file" id="file">

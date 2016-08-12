@@ -29,6 +29,7 @@ class Db
      * @param $sql
      * @param array $params
      * @return bool
+     * @throws Exceptions\Db
      */
     public function execute($sql, $params = [])
     {
@@ -36,7 +37,7 @@ class Db
         $sth = $this->_dbh->prepare($sql);
         $res = $sth->execute($params);             //Возвращает boolean
         if(!$res) {
-            $ex = new \App\Exceptions\Db('Исключение');
+            $ex = new \App\Exceptions\Db('Ошибка при работе с БД');
             throw $ex;
         }
         return $res;
