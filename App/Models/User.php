@@ -63,8 +63,11 @@ class User extends Model
             return false;
         }
     }
+
     
-// TODO реализовать профиль
+    /**
+     * TODO реализовать профиль
+     */
     public function profile()
     {
         

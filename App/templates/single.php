@@ -37,7 +37,6 @@
                     <textarea class="form-control" name="message" id="message"
                               rows="10"><?= $this->message->message ?></textarea>
                     </div>
-<?php var_dump($this->message->file) ?>
                     <?php if ($this->message->file && preg_match('([^\s]+(\.(?i)(jpg|png|gif))$)', $this->message->file)): ?>
                         <div id="image">
                             <img src="<?= $this->message->file ?>" alt="image"><a href="index.php?action=DeleteFile&amp;id=<?= $this->message->id ?>" title="удалить"><span class="glyphicon glyphicon-remove delete"></span></a>
@@ -46,7 +45,7 @@
 
                     <div class="form-group">
                         <label for="file">File input</label>
-                        <input type="file" name="file" id="file">
+			<input type="file" name="file" id="file">
                     </div>
                     <div class="form-group">
                         <label for="ip">IP</label>

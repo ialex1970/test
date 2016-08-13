@@ -118,7 +118,6 @@ abstract class Model
     {
         $db = Db::instance();
         $sql = "SELECT * FROM " . static::TABLE . " WHERE message LIKE '%".strtoupper($_POST['value'])."%'";
-        //var_dump($sql);die();
         $res = $db->query($sql, static::class, [':message' => $message]);
         if ($res == false)
             throw new \Exception('Извините, поиск ничего не дал');

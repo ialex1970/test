@@ -42,9 +42,6 @@ class Message extends Model
             case 'user':
                 return !empty($this->user);
                 break;
-            case 'errors':
-                return !empty($this->errors);
-                break;
             default:
                 return false;
         }
@@ -60,7 +57,7 @@ class Message extends Model
         // Валидация имени пользователя. Разрешены буквы латинского алфавита и цифры. Пробелы недопустимы.
         $this->name = $this->clean($_POST['name']);
         if (!preg_match("/^[a-zA-Z0-9]+$/", $this->name)) {
-            $err[] = "Логин может состоять только из букв английского алфавита и цифр";
+            $err[] = "Логин может состоять только из букв английского алфавита и цифр без пробелов";
         }
 
         // Валидация на корректность адреса эл. почты
@@ -83,43 +80,37 @@ class Message extends Model
                 $err[] = "Неправильный URL";
             }
         }
-
         // Закрываем теги
         $this->message = $this->closetags($_POST['message']);
 
-        //Определяем ip пользователя. Если ::1, по заносим в базу, как локалхост
+        //Определяем ip пользователя. Если ::1, по заносим в базу, как localhost
         $this->ip = ($_SERVER['REMOTE_ADDR'] == '::1') ? 'localhost' : $_SERVER['REMOTE_ADDR'];
         $user_agent = getenv('HTTP_USER_AGENT');;
         $this->browser = $this->user_browser($user_agent);
-
-
         // Проверка загружаемого файла
-        $this->file = isset($_FILES['file']['name']) ? $_FILES['file'] : null;
+        $this->file = is_uploaded_file($_FILES['file']['tmp_name']) ? $_FILES['file'] : null;
         $file_type = $this->file['type'];
-        //var_dump($this->file);
         if ($file_type) {
             if ($file_type == 'image/gif' or $file_type == 'image/png' or $file_type == 'image/jpeg') {
                 $this->file = $this->resize($this->file['tmp_name'], 0, 320, 240);
-                if ($this->file == false)
+                if ($this->file == false) {
                     $err[] = 'Не удалось изменить размер изображения';
+                }
             } elseif ($file_type == 'text/plain') {
-               if ($this->file['size'] > 1024000) {
-                   $err[] = 'Файл слишком большой';
-               }
+                if ($this->file['size'] > 1024000) {
+                    $err[] = 'Файл слишком большой';
+                }
             } else {
                 $err[] = 'Неправильный формат файла';
             }
-
         }
 
-        //var_dump($file_type);
-        $uploadfile = "uploads/" . $this->name .'_'.$_FILES['file']['name'];
-        //var_dump($uploadfile);die();
-        move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
-        $this->file = $uploadfile;
-        //var_dump($err);
-        ////var_dump($_FILES);
-        //die();
+        $uploadfile = $this->file ? "uploads/" . $this->name . '_' . $_FILES['file']['name'] : '';
+        if (!empty($uploadfile) && !move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)) {
+            $err[] = 'Не удалось загрузить файл';
+        } else {
+            $this->file = $uploadfile;
+        }
         // Если ошибок нет, то сохраняем в базу
         if (count($err) == 0) {
             if (isset($id)) {
@@ -127,13 +118,19 @@ class Message extends Model
             } else {
                 $this->save();
 
-
                 header('Location: http://guest.dev/');
             }
         } else {
             return $err;
         }
 
+    }
+
+    public function deleteFileFromDb($id)
+    {
+        $message = $this::findById($id);
+        $message->file = null;
+        $message->save($id);
     }
 
     /**
@@ -233,39 +230,47 @@ class Message extends Model
      * @param  $quality - enter 1-100 (100 is best quality) default is 100
      * @return boolean|resource
      */
-    function resize($file,
-        $string             = null,
-        $width              = 0,
-        $height             = 0,
-        $proportional       = true,
-        $output             = 'file',
-        $delete_original    = true,
+    function resize(
+        $file,
+        $string = null,
+        $width = 0,
+        $height = 0,
+        $proportional = true,
+        $output = 'file',
+        $delete_original = true,
         $use_linux_commands = false,
         $quality = 100
     ) {
-        if ( $height <= 0 && $width <= 0 ) return false;
-        if ( $file === null && $string === null ) return false;
+        if ($height <= 0 && $width <= 0) {
+            return false;
+        }
+        if ($file === null && $string === null) {
+            return false;
+        }
 
         # Setting defaults and meta
-        $info                         = $file !== null ? getimagesize($file) : getimagesizefromstring($string);
-        $image                        = '';
-        $final_width                  = 0;
-        $final_height                 = 0;
+        $info = $file !== null ? getimagesize($file) : getimagesizefromstring($string);
+        $image = '';
+        $final_width = 0;
+        $final_height = 0;
         list($width_old, $height_old) = $info;
         $cropHeight = $cropWidth = 0;
 
         # Calculating proportionality
         if ($proportional) {
-            if      ($width  == 0)  $factor = $height/$height_old;
-            elseif  ($height == 0)  $factor = $width/$width_old;
-            else                    $factor = min( $width / $width_old, $height / $height_old );
+            if ($width == 0) {
+                $factor = $height / $height_old;
+            } elseif ($height == 0) {
+                $factor = $width / $width_old;
+            } else {
+                $factor = min($width / $width_old, $height / $height_old);
+            }
 
-            $final_width  = round( $width_old * $factor );
-            $final_height = round( $height_old * $factor );
-        }
-        else {
-            $final_width = ( $width <= 0 ) ? $width_old : $width;
-            $final_height = ( $height <= 0 ) ? $height_old : $height;
+            $final_width = round($width_old * $factor);
+            $final_height = round($height_old * $factor);
+        } else {
+            $final_width = ($width <= 0) ? $width_old : $width;
+            $final_height = ($height <= 0) ? $height_old : $height;
             $widthX = $width_old / $width;
             $heightX = $height_old / $height;
 
@@ -275,48 +280,59 @@ class Message extends Model
         }
 
         # Loading image to memory according to type
-        switch ( $info[2] ) {
-            case IMAGETYPE_JPEG:  $file !== null ? $image = imagecreatefromjpeg($file) : $image = imagecreatefromstring($string);  break;
-            case IMAGETYPE_GIF:   $file !== null ? $image = imagecreatefromgif($file)  : $image = imagecreatefromstring($string);  break;
-            case IMAGETYPE_PNG:   $file !== null ? $image = imagecreatefrompng($file)  : $image = imagecreatefromstring($string);  break;
-            default: return false;
+        switch ($info[2]) {
+            case IMAGETYPE_JPEG:
+                $file !== null ? $image = imagecreatefromjpeg($file) : $image = imagecreatefromstring($string);
+                break;
+            case IMAGETYPE_GIF:
+                $file !== null ? $image = imagecreatefromgif($file) : $image = imagecreatefromstring($string);
+                break;
+            case IMAGETYPE_PNG:
+                $file !== null ? $image = imagecreatefrompng($file) : $image = imagecreatefromstring($string);
+                break;
+            default:
+                return false;
         }
 
 
         # This is the resizing/resampling/transparency-preserving magic
-        $image_resized = imagecreatetruecolor( $final_width, $final_height );
-        if ( ($info[2] == IMAGETYPE_GIF) || ($info[2] == IMAGETYPE_PNG) ) {
+        $image_resized = imagecreatetruecolor($final_width, $final_height);
+        if (($info[2] == IMAGETYPE_GIF) || ($info[2] == IMAGETYPE_PNG)) {
             $transparency = imagecolortransparent($image);
             $palletsize = imagecolorstotal($image);
 
             if ($transparency >= 0 && $transparency < $palletsize) {
-                $transparent_color  = imagecolorsforindex($image, $transparency);
-                $transparency       = imagecolorallocate($image_resized, $transparent_color['red'], $transparent_color['green'], $transparent_color['blue']);
+                $transparent_color = imagecolorsforindex($image, $transparency);
+                $transparency = imagecolorallocate($image_resized, $transparent_color['red'],
+                    $transparent_color['green'], $transparent_color['blue']);
                 imagefill($image_resized, 0, 0, $transparency);
                 imagecolortransparent($image_resized, $transparency);
-            }
-            elseif ($info[2] == IMAGETYPE_PNG) {
+            } elseif ($info[2] == IMAGETYPE_PNG) {
                 imagealphablending($image_resized, false);
                 $color = imagecolorallocatealpha($image_resized, 0, 0, 0, 127);
                 imagefill($image_resized, 0, 0, $color);
                 imagesavealpha($image_resized, true);
             }
         }
-        imagecopyresampled($image_resized, $image, 0, 0, $cropWidth, $cropHeight, $final_width, $final_height, $width_old - 2 * $cropWidth, $height_old - 2 * $cropHeight);
+        imagecopyresampled($image_resized, $image, 0, 0, $cropWidth, $cropHeight, $final_width, $final_height,
+            $width_old - 2 * $cropWidth, $height_old - 2 * $cropHeight);
 
 
         # Taking care of original, if needed
-        if ( $delete_original ) {
-            if ( $use_linux_commands ) exec('rm '.$file);
-            else @unlink($file);
+        if ($delete_original) {
+            if ($use_linux_commands) {
+                exec('rm ' . $file);
+            } else {
+                @unlink($file);
+            }
         }
 
         # Preparing a method of providing result
-        switch ( strtolower($output) ) {
+        switch (strtolower($output)) {
             case 'browser':
                 $mime = image_type_to_mime_type($info[2]);
                 header("Content-type: $mime");
-                $output = NULL;
+                $output = null;
                 break;
             case 'file':
                 $output = $file;
@@ -329,14 +345,19 @@ class Message extends Model
         }
 
         # Writing image according to type to the output destination and image quality
-        switch ( $info[2] ) {
-            case IMAGETYPE_GIF:   imagegif($image_resized, $output);    break;
-            case IMAGETYPE_JPEG:  imagejpeg($image_resized, $output, $quality);   break;
+        switch ($info[2]) {
+            case IMAGETYPE_GIF:
+                imagegif($image_resized, $output);
+                break;
+            case IMAGETYPE_JPEG:
+                imagejpeg($image_resized, $output, $quality);
+                break;
             case IMAGETYPE_PNG:
-                $quality = 9 - (int)((0.9*$quality)/10.0);
+                $quality = 9 - (int)((0.9 * $quality) / 10.0);
                 imagepng($image_resized, $output, $quality);
                 break;
-            default: return false;
+            default:
+                return false;
         }
 
         return true;
