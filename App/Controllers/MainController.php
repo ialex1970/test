@@ -140,9 +140,12 @@ class MainController
 
 protected function actionDeleteFile()
 {
+    //var_dump($_GET); die();
     $message = Message::findById($_GET['id']);
+    $message->file = null;
     unlink($message->file);
-    header('Location: http://guest.dev/index.php?action=Single'); //TODO Исправить редирект
+    $message->store($message->id);
+    header('Location: http://guest.dev/index.php'); //TODO Исправить редирект
 }
 
     protected function actionUpdate()
