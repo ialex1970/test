@@ -18,7 +18,6 @@ class Message extends Model
     public $file;
 
 
-
     /**
      * LAZY LOAD
      *
@@ -79,9 +78,7 @@ class Message extends Model
             $this->homepage = '';
         } else {
             $this->homepage = $this->clean($_POST['homepage']);
-            if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",
-                $this->homepage)
-            ) {
+            if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $this->homepage)) {
                 $err[] = "Неправильный URL";
             }
         }
@@ -90,8 +87,8 @@ class Message extends Model
 
         //Определяем ip пользователя. Если ::1, по заносим в базу, как localhost
         $this->ip = ($_SERVER['REMOTE_ADDR'] == '::1') ? 'localhost' : $_SERVER['REMOTE_ADDR'];
-        $user_agent = getenv('HTTP_USER_AGENT');;
-        $this->browser = $this->user_browser($user_agent);
+        $user_agent = getenv('HTTP_USER_AGENT');
+        $this->browser = $this->userBrowser($user_agent);
         // Проверка загружаемого файла
         $this->file = is_uploaded_file($_FILES['file']['tmp_name']) ? $_FILES['file'] : null;
         $file_type = $this->file['type'];
@@ -111,8 +108,7 @@ class Message extends Model
         }
 
         $uploadfile = $this->file ? "uploads/" . $this->name . '_' . $_FILES['file']['name'] : '';
-        if (!empty($uploadfile) && !move_uploaded_file($_FILES['file']['tmp_name'],
-                $uploadfile)
+        if (!empty($uploadfile) && !move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)
         ) {
             $err[] = 'Не удалось загрузить файл';
         } else {
@@ -130,7 +126,6 @@ class Message extends Model
         } else {
             return $err;
         }
-
     }
 
     /**
@@ -172,8 +167,7 @@ class Message extends Model
      */
     private function closetags($html)
     {
-        preg_match_all('#<(?!meta|img|br|hr|input\b)\b([a-z]+)(?: .*)?(?<![/|/ ])>#iU',
-            $html, $result);
+        preg_match_all('#<(?!meta|img|br|hr|input\b)\b([a-z]+)(?: .*)?(?<![/|/ ])>#iU', $html, $result);
         $openedtags = $result[1];
         preg_match_all('#</([a-z]+)>#iU', $html, $result);
         $closedtags = $result[1];
@@ -199,26 +193,22 @@ class Message extends Model
      * @param $agent
      * @return string
      */
-    function user_browser($agent)
+    private function userBrowser($agent)
     {
-        preg_match("/(MSIE|Opera|Firefox|Chrome|Version|Opera Mini|Netscape|Konqueror|SeaMonkey|Camino|Minefield|Iceweasel|K-Meleon|Maxthon)(?:\/| )([0-9.]+)/",
-            $agent,
-            $browser_info); // регулярное выражение, которое позволяет отпределить 90% браузеров
+        preg_match("/(MSIE|Opera|Firefox|Chrome|Version|Opera Mini|Netscape|Konqueror|SeaMonkey|Camino|Minefield|Iceweasel|K-Meleon|Maxthon)(?:\/| )([0-9.]+)/", $agent, $browser_info); // регулярное выражение, которое позволяет отпределить 90% браузеров
         list(, $browser, $version) = $browser_info; // получаем данные из массива в переменную
         if (preg_match("/Opera ([0-9.]+)/i", $agent, $opera)) {
             return 'Opera ' . $opera[1];
         } // определение _очень_старых_ версий Оперы (до 8.50), при желании можно убрать
         if ($browser == 'MSIE') { // если браузер определён как IE
-            preg_match("/(Maxthon|Avant Browser|MyIE2)/i", $agent,
-                $ie); // проверяем, не разработка ли это на основе IE
+            preg_match("/(Maxthon|Avant Browser|MyIE2)/i", $agent, $ie); // проверяем, не разработка ли это на основе IE
             if ($ie) {
                 return $ie[1] . ' based on IE ' . $version;
             } // если да, то возвращаем сообщение об этом
             return 'IE ' . $version; // иначе просто возвращаем IE и номер версии
         }
         if ($browser == 'Firefox') { // если браузер определён как Firefox
-            preg_match("/(Flock|Navigator|Epiphany)\/([0-9.]+)/", $agent,
-                $ff); // проверяем, не разработка ли это на основе Firefox
+            preg_match("/(Flock|Navigator|Epiphany)\/([0-9.]+)/", $agent, $ff); // проверяем, не разработка ли это на основе Firefox
             if ($ff) {
                 return $ff[1] . ' ' . $ff[2];
             } // если да, то выводим номер и версию
@@ -321,9 +311,7 @@ class Message extends Model
 
             if ($transparency >= 0 && $transparency < $palletsize) {
                 $transparent_color = imagecolorsforindex($image, $transparency);
-                $transparency = imagecolorallocate($image_resized,
-                    $transparent_color['red'],
-                    $transparent_color['green'], $transparent_color['blue']);
+                $transparency = imagecolorallocate($image_resized, $transparent_color['red'], $transparent_color['green'], $transparent_color['blue']);
                 imagefill($image_resized, 0, 0, $transparency);
                 imagecolortransparent($image_resized, $transparency);
             } elseif ($info[2] == IMAGETYPE_PNG) {
@@ -333,9 +321,7 @@ class Message extends Model
                 imagesavealpha($image_resized, true);
             }
         }
-        imagecopyresampled($image_resized, $image, 0, 0, $cropWidth, $cropHeight,
-            $final_width, $final_height,
-            $width_old - 2 * $cropWidth, $height_old - 2 * $cropHeight);
+        imagecopyresampled($image_resized, $image, 0, 0, $cropWidth, $cropHeight, $final_width, $final_height, $width_old - 2 * $cropWidth, $height_old - 2 * $cropHeight);
 
 
         # Taking care of original, if needed

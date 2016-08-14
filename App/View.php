@@ -5,23 +5,26 @@
  * Date: 12.04.16
  * Time: 11:54
  */
-
 namespace App;
 
-
-class View {
+class View
+{
     protected $data;
 
-    public function __set( $name, $value ) {
+    public function __set($name, $value)
+    {
         $this->data[$name] = $value;
     }
 
-    public function __get( $name ) {
-        if ($name)
-        return $this->data[$name];
+    public function __get($name)
+    {
+        if ($name) {
+            return $this->data[$name];
+        }
     }
 
-    public function render($template) {
+    public function render($template)
+    {
         ob_start();
         include $template;
         $content = ob_get_contents();
@@ -29,8 +32,8 @@ class View {
         return $content;
     }
 
-    public function display($template) {
-
+    public function display($template)
+    {
         echo $this->render($template);
     }
 }

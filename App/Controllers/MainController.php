@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Exceptions\Core;
 use App\Models\Message;
 use App\Models\Pagination;
 use App\Models\User;
@@ -42,7 +41,7 @@ class MainController
     {
         $pag = new Pagination();
         $data = Message::findAll();
-        $this->view->numbers = $pag->Paginate($data, 10);
+        $this->view->numbers = $pag->Paginate($data, 25);
 
         $this->view->messages = $pag->fetchResult();
         $this->view->title = 'Сообщения';
@@ -163,7 +162,7 @@ class MainController
         $message = Message::findById($_GET['id']);
         unlink($message->file);
         $message->deleteFileFromDb($_GET['id']);
-        header("Location: http://guest.dev/index.php?action=Single&id=$message->id"); //TODO Исправить редирект
+        header("Location: http://guest.dev/index.php?action=Single&id=$message->id");
     }
 
     /**
@@ -180,7 +179,7 @@ class MainController
             $res = $message->store($id);
             if ($res !== null) {
                 $this->view->errors = $res;
-                $this->view->message = \App\Models\Message::findById($_GET['id']);
+                $this->view->message = Message::findById($_GET['id']);
                 echo $this->view->display(__DIR__ . '/../templates/single.php');
             } else {
                 header('Location:' . $_SERVER['HTTP_REFERER']);

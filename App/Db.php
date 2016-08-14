@@ -1,12 +1,10 @@
 <?php
-namespace App;
 
-//use App\Exceptions\Db;
+namespace App;
 
 class Db
 {
     use Singleton;
-    //use PDO;
     private $_dbh;
 
     /**
@@ -20,9 +18,8 @@ class Db
         try {
             $this->_dbh = new \PDO('mysql:host=127.0.0.1;dbname=lesson', 'root', '123', $options);
         } catch (\PDOException $e) {
-            throw  new \App\Exceptions\Db('Что-то не так с базой' .' '. $e->getMessage());
+            throw  new \App\Exceptions\Db('Что-то не так с базой' . ' ' . $e->getMessage());
         }
-
     }
 
     /**
@@ -36,7 +33,7 @@ class Db
 
         $sth = $this->_dbh->prepare($sql);
         $res = $sth->execute($params);             //Возвращает boolean
-        if(!$res) {
+        if (!$res) {
             $ex = new \App\Exceptions\Db('Ошибка при работе с БД');
             throw $ex;
         }
@@ -48,7 +45,7 @@ class Db
      * @param $class
      * @return array
      */
-    public function query($sql, $class, $params=[])
+    public function query($sql, $class, $params = [])
     {
         $sth = $this->_dbh->prepare($sql);
         $res = $sth->execute($params);

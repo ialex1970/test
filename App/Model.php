@@ -9,16 +9,17 @@ abstract class Model
     const TABLE = '';
     public $id;
     public $message;
-    //public $dir = 'DESC';
-    //public $sort_fields = ['name', 'email'];
 
+    /**
+     * @return array
+     */
     public static function findAll()
     {
         $db = Db::instance();
         return $db->query(
             'SELECT * FROM ' . static::TABLE . ' ORDER BY published_at DESC',
-            static::class);
-
+            static::class
+        );
     }
 
     /**
@@ -30,24 +31,34 @@ abstract class Model
         $db = Db::instance();
         $sql = 'SELECT * FROM ' . static::TABLE . ' WHERE id = :id';
         $res = $db->query($sql, static::class, [':id' => $id]);
-        if ($res == false)
+        if ($res == false) {
             header('Location: http://guest.dev/page404.html');
+        }
         return $res[0];
     }
+
+    /**
+     * @param string $name
+     * @return mixed
+     * @throws NotFound
+     */
     public static function findByName(string $name)
     {
         $db = Db::instance();
         $sql = 'SELECT * FROM ' . static::TABLE . ' WHERE name = :name';
         $res = $db->query($sql, static::class, [':name' => $name]);
-        if ($res == false)
-           throw new NotFound('Not found');
+        if ($res == false) {
+            throw new NotFound('Not found');
+        }
         return $res[0];
     }
 
+    /**
+     * @return bool
+     */
     public function isNew()
     {
         return empty($this->id);
-
     }
 
     /**
@@ -73,8 +84,9 @@ abstract class Model
         $columns = [];
         $values = [];
         foreach ($this as $k => $v) {
-            if ($k == 'id')
+            if ($k == 'id') {
                 continue;
+            }
             $columns[] = $k;
             $values[':' . $k] = $v;
         }
@@ -85,6 +97,10 @@ abstract class Model
         $db->execute($sql, $values);
     }
 
+    /**
+     * @param $id
+     * @throws Exceptions\Db
+     */
     protected function update($id)
     {
         $this->id = $id;
@@ -92,8 +108,9 @@ abstract class Model
         $columns = [];
         $values = [];
         foreach ($this as $k => $v) {
-            if ($k == 'id')
+            if ($k == 'id') {
                 continue;
+            }
             $columns[] = $k . '=:' . $k;
             $values[':' . $k] = $v;
         }
@@ -102,6 +119,10 @@ abstract class Model
         $db->execute($sql, $values);
     }
 
+    /**
+     * @param $id
+     * @return array|bool
+     */
     public function delete($id)
     {
         $this->id = (int)$id;
@@ -114,16 +135,18 @@ abstract class Model
         return $res;
     }
 
+    /**
+     * @return array
+     * @throws \Exception
+     */
     public static function search()
     {
         $db = Db::instance();
-        $sql = "SELECT * FROM " . static::TABLE . " WHERE message LIKE '%".strtoupper($_POST['value'])."%'";
+        $sql = "SELECT * FROM " . static::TABLE . " WHERE message LIKE '%" . strtoupper($_POST['value']) . "%'";
         $res = $db->query($sql, static::class, [':message' => $message]);
-        if ($res == false)
+        if ($res == false) {
             throw new \Exception('Извините, поиск ничего не дал');
-            //header('Location: http://guest.dev/page404.html');
+        }
         return $res;
     }
-
-
 }

@@ -1,16 +1,17 @@
 <?php
 session_start();
 include("simple-php-captcha.php");
+
 $_SESSION['captcha'] = simple_php_captcha();
 ?>
 <?php include_once 'includes/header.php' ?>
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <?php if ($this->errors): ?>
+            <?php if ($this->errors) : ?>
                 <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <?php foreach ($this->errors as $error): ?>
+                    <?php foreach ($this->errors as $error) : ?>
                         <p><?= $error ?></p>
                     <?php endforeach; ?>
                 </div>
@@ -47,7 +48,7 @@ $_SESSION['captcha'] = simple_php_captcha();
                     </div>
                     <h4>Проверчный код</h4>
                     <?php session_start() ?>
-                    <?php if (isset($_SESSION['error'])): ?>
+                    <?php if (isset($_SESSION['error'])) : ?>
                         <div class="alert alert-danger">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                             <p><?= $_SESSION['error'] ?></p>
