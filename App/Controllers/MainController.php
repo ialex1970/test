@@ -32,7 +32,6 @@ class MainController
 
     protected function beforeAction()
     {
-
     }
 
 
@@ -42,7 +41,7 @@ class MainController
     protected function actionIndex()
     {
         $pag = new Pagination();
-        $data = Message::findAll();;
+        $data = Message::findAll();
         $this->view->numbers = $pag->Paginate($data, 10);
 
         $this->view->messages = $pag->fetchResult();
@@ -56,7 +55,7 @@ class MainController
     protected function actionEdit()
     {
         $this->view->title = 'Сообщения';
-        $this->view->messages = \App\Models\Message::findAll();
+        $this->view->messages = Message::findAll();
         echo $this->view->display(__DIR__ . '/../templates/edit.php');
     }
 
@@ -134,7 +133,7 @@ class MainController
      */
     protected function actionSingle()
     {
-        $this->view->message = \App\Models\Message::findById($_GET['id']);
+        $this->view->message = Message::findById($_GET['id']);
 
         echo $this->view->display(__DIR__ . '/../templates/single.php');
     }
@@ -163,7 +162,7 @@ class MainController
     {
         $message = Message::findById($_GET['id']);
         unlink($message->file);
-
+        $message->deleteFileFromDb($_GET['id']);
         header("Location: http://guest.dev/index.php?action=Single&id=$message->id"); //TODO Исправить редирект
     }
 

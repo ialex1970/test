@@ -4,11 +4,13 @@ html {
     position: relative;
     min-height: 100%;
 }
+
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
     background: #eeeeee;
 }
+
 .footer {
     position: absolute;
     bottom: 0;
@@ -27,7 +29,6 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff222222', endColorstr='#ff111111', GradientType=0);
 }
 
-
 /* Custom page CSS
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
@@ -35,9 +36,11 @@ body {
 body > .container {
     padding: 20px 15px 20px;
 }
+
 .container .text-muted {
     margin: 20px 0;
 }
+
 .container.link a {
     margin-bottom: 20px;
 }
@@ -54,45 +57,62 @@ code {
 i {
     margin-left: 5px;
 }
+
 .captcha {
     margin-bottom: 20px;
 }
+
 #new {
     margin-bottom: 40px;
 }
+
 span.date {
     font-size: 12px;
     color: gray;
 }
+
 .navbar-form .form-control {
     width: 175px;
 }
+
 div#image {
     margin-bottom: 10px;
 }
+
 a > span.delete {
     color: darkred;
     margin-left: 20px;
 }
+
 #image a {
     text-decoration: none;
 }
 
+div.text-file {
+    margin-bottom: 10px;
+}
+
+div.text-file p {
+    float: left;
+}
+
 /* tables */
 table.tablesorter {
-    font-family:arial;
+    font-family: arial;
     background-color: #e3e3e3;
-    margin:10px 0pt 15px;
+    margin: 10px 0pt 15px;
     font-size: 9pt;
     width: 100%;
     text-align: left;
 }
+
 table.tablesorter thead tr th, table.tablesorter tfoot tr th {
     background-color: #e6EEEE;
     border: 1px solid #FFF;
     font-size: 10pt;
     padding: 4px;
 }
+
 table.tablesorter thead tr .header {
     background-image: url(blue/bg.gif);
     background-repeat: no-repeat;
@@ -100,24 +120,30 @@ table.tablesorter thead tr .header {
     cursor: pointer;
     color: #6E6E6E;
 }
+
 table.tablesorter tbody td {
     color: #3D3D3D;
     padding: 4px;
     /*background-color: #FFF;*/
     vertical-align: top;
 }
+
 table.tablesorter tbody tr.odd td {
-    background-color:#F0F0F6;
+    background-color: #F0F0F6;
 }
+
 table.tablesorter thead tr .headerSortUp {
     background-image: url(blue/asc.gif);
 }
+
 table.tablesorter thead tr .headerSortDown {
     background-image: url(blue/desc.gif);
 }
+
 table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
     background-color: #8dbdd8;
 }
+
 .sorter-false {
     color: #6E6E6E;
 }

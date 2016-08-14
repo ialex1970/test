@@ -1,11 +1,11 @@
 <?php include_once 'includes/header.php' ?>
-<div class="container">
+<div class="container" xmlns="http://www.w3.org/1999/html">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <?php if ($this->errors): ?>
+            <?php if ($this->errors) : ?>
                 <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <?php foreach ($this->errors as $error): ?>
+                    <?php foreach ($this->errors as $error) : ?>
                         <p><?= $error ?></p>
                     <?php endforeach; ?>
                 </div>
@@ -37,15 +37,22 @@
                     <textarea class="form-control" name="message" id="message"
                               rows="10"><?= $this->message->message ?></textarea>
                     </div>
-                    <?php if ($this->message->file && preg_match('([^\s]+(\.(?i)(jpg|png|gif))$)', $this->message->file)): ?>
+                    <?php if ($this->message->file && preg_match('/[^\s]+(\.(?i)(jpg|png|gif))$/', $this->message->file)) : ?>
                         <div id="image">
-                            <img src="<?= $this->message->file ?>" alt="image"><a href="index.php?action=DeleteFile&amp;id=<?= $this->message->id ?>" title="удалить"><span class="glyphicon glyphicon-remove delete"></span></a>
+                            <img src="<?= $this->message->file ?>" alt="image"><a
+                                href="index.php?action=DeleteFile&amp;id=<?= $this->message->id ?>"
+                                title="удалить"><span class="glyphicon glyphicon-remove delete"></span></a>
+                        </div>
+                        <?php elseif ($this->message->file && preg_match('/[^\s]+(\.(?i)(txt))$/', $this->message->file)) : ?>
+                        <div class="text-file">
+                            <p><strong>User's file:</strong> <?= $this->message->file ?></p><a
+                                href="index.php?action=DeleteFile&amp;id=<?= $this->message->id ?>"
+                                title="удалить"><span class="glyphicon glyphicon-remove delete"></span></a>
                         </div>
                     <?php endif; ?>
-
-                    <div class="form-group">
+                    <div class="form-group clearfix">
                         <label for="file">File input</label>
-			<input type="file" name="file" id="file">
+                        <input type="file" name="file" id="file">
                     </div>
                     <div class="form-group">
                         <label for="ip">IP</label>

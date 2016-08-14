@@ -9,7 +9,6 @@ use App\Db;
 class Message extends Model
 {
     const TABLE = 'messages';
-    //public $user_id;
     public $name;
     public $email;
     public $message;
@@ -17,13 +16,14 @@ class Message extends Model
     public $ip;
     public $browser;
     public $file;
-    //public $published_at;
+
 
 
     /**
      * LAZY LOAD
      *
-     * @param $name
+     * @param string $name
+     *
      * @return null
      */
     public function __get($name)
@@ -36,6 +36,11 @@ class Message extends Model
         }
     }
 
+    /**
+     * @param string $k
+     *
+     * @return bool
+     */
     public function __isset($k)
     {
         switch ($k) {
@@ -49,7 +54,7 @@ class Message extends Model
 
     /**
      * Добавление или обновление записи в таблицу messages
-     *
+     * @param int $id
      * @return array|string
      */
     public function store($id = null)
@@ -106,7 +111,9 @@ class Message extends Model
         }
 
         $uploadfile = $this->file ? "uploads/" . $this->name . '_' . $_FILES['file']['name'] : '';
-        if (!empty($uploadfile) && !move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)) {
+        if (!empty($uploadfile) && !move_uploaded_file($_FILES['file']['tmp_name'],
+                $uploadfile)
+        ) {
             $err[] = 'Не удалось загрузить файл';
         } else {
             $this->file = $uploadfile;
@@ -126,6 +133,13 @@ class Message extends Model
 
     }
 
+    /**
+     * Удаление из БД
+     *
+     * @param int $id id записи
+     *
+     * @return void
+     */
     public function deleteFileFromDb($id)
     {
         $message = $this::findById($id);
@@ -136,7 +150,8 @@ class Message extends Model
     /**
      * Убираем теги, пробелы.....
      *
-     * @param string $value
+     * @param string $value данные пользователя
+     *
      * @return string
      */
     private function clean($value = "")
@@ -157,7 +172,8 @@ class Message extends Model
      */
     private function closetags($html)
     {
-        preg_match_all('#<(?!meta|img|br|hr|input\b)\b([a-z]+)(?: .*)?(?<![/|/ ])>#iU', $html, $result);
+        preg_match_all('#<(?!meta|img|br|hr|input\b)\b([a-z]+)(?: .*)?(?<![/|/ ])>#iU',
+            $html, $result);
         $openedtags = $result[1];
         preg_match_all('#</([a-z]+)>#iU', $html, $result);
         $closedtags = $result[1];
@@ -186,13 +202,15 @@ class Message extends Model
     function user_browser($agent)
     {
         preg_match("/(MSIE|Opera|Firefox|Chrome|Version|Opera Mini|Netscape|Konqueror|SeaMonkey|Camino|Minefield|Iceweasel|K-Meleon|Maxthon)(?:\/| )([0-9.]+)/",
-            $agent, $browser_info); // регулярное выражение, которое позволяет отпределить 90% браузеров
+            $agent,
+            $browser_info); // регулярное выражение, которое позволяет отпределить 90% браузеров
         list(, $browser, $version) = $browser_info; // получаем данные из массива в переменную
         if (preg_match("/Opera ([0-9.]+)/i", $agent, $opera)) {
             return 'Opera ' . $opera[1];
         } // определение _очень_старых_ версий Оперы (до 8.50), при желании можно убрать
         if ($browser == 'MSIE') { // если браузер определён как IE
-            preg_match("/(Maxthon|Avant Browser|MyIE2)/i", $agent, $ie); // проверяем, не разработка ли это на основе IE
+            preg_match("/(Maxthon|Avant Browser|MyIE2)/i", $agent,
+                $ie); // проверяем, не разработка ли это на основе IE
             if ($ie) {
                 return $ie[1] . ' based on IE ' . $version;
             } // если да, то возвращаем сообщение об этом
@@ -230,7 +248,7 @@ class Message extends Model
      * @param  $quality - enter 1-100 (100 is best quality) default is 100
      * @return boolean|resource
      */
-    function resize(
+    private function resize(
         $file,
         $string = null,
         $width = 0,
@@ -303,7 +321,8 @@ class Message extends Model
 
             if ($transparency >= 0 && $transparency < $palletsize) {
                 $transparent_color = imagecolorsforindex($image, $transparency);
-                $transparency = imagecolorallocate($image_resized, $transparent_color['red'],
+                $transparency = imagecolorallocate($image_resized,
+                    $transparent_color['red'],
                     $transparent_color['green'], $transparent_color['blue']);
                 imagefill($image_resized, 0, 0, $transparency);
                 imagecolortransparent($image_resized, $transparency);
@@ -314,7 +333,8 @@ class Message extends Model
                 imagesavealpha($image_resized, true);
             }
         }
-        imagecopyresampled($image_resized, $image, 0, 0, $cropWidth, $cropHeight, $final_width, $final_height,
+        imagecopyresampled($image_resized, $image, 0, 0, $cropWidth, $cropHeight,
+            $final_width, $final_height,
             $width_old - 2 * $cropWidth, $height_old - 2 * $cropHeight);
 
 
@@ -362,5 +382,4 @@ class Message extends Model
 
         return true;
     }
-
 }
