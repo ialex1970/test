@@ -15,12 +15,12 @@
             <table id="table" class="table table-striped tablesorter">
                 <thead>
                 <tr>
-                    <th class="header" width="100px"><a href="index.php?action=Index&amp;col=name&amp;dir=<?= $_GET['dir'] === 'desc' ? 'asc' : 'desc'  ?>">Name <span class="name glyphicon"></span></a></th>
-                    <th class="header"><a href="index.php?action=Index&amp;col=email&amp;dir=<?= $_GET['dir'] === 'desc' ? 'asc' : 'desc'  ?>">Email</a></th>
-                    <th class="header" width="150px"><a href="index.php?action=Index&amp;col=published_at&amp;dir=<?= $_GET['dir'] === 'desc' ? 'asc' : 'desc'  ?>">Added</a></th>
-                    <th class="sorter-false">Message</th>
+                    <th class="header"><a href="index.php?action=Index&amp;col=name&amp;dir=<?= $_GET['dir'] === 'desc' ? 'asc' : 'desc'  ?>">Name <i class="fa fa-sort" aria-hidden="true"></i></a></th>
+                    <th class="header"><a href="index.php?action=Index&amp;col=email&amp;dir=<?= $_GET['dir'] === 'desc' ? 'asc' : 'desc'  ?>">Email <i class="fa fa-sort" aria-hidden="true"></i></a></th>
+                    <th class="header"><a href="index.php?action=Index&amp;col=published_at&amp;dir=<?= $_GET['dir'] === 'desc' ? 'asc' : 'desc'  ?>">Added <i class="fa fa-sort" aria-hidden="true"></i></a></th>
+                    <th>Message</th>
                     <?php if (isset($_SESSION['user'])) : ?>
-                        <th class="sorter-false">Action</th>
+                        <th>Action</th>
                     <?php endif; ?>
                 </tr>
                 </thead>

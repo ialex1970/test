@@ -46,7 +46,7 @@ class MainController
         } else {
             $data = Message::findAll();
         }
-
+        
         $this->view->numbers = $pag->Paginate($data, 25);
 
         $this->view->messages = $pag->fetchResult();
