@@ -96,6 +96,14 @@ div.text-file p {
     float: left;
 }
 
+/* My sort */
+.header a {
+    text-decoration: none;
+    color: #6E6E6E;
+}
+
+/* My sort */
+
 /* tables */
 table.tablesorter {
     font-family: arial;

@@ -75,7 +75,7 @@
                 <div class="form-group">
                     <input type="text" name="value" class="form-control" placeholder="Поиск по сообщениям">
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-default">Искать</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <?php session_start() ?>

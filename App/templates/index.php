@@ -15,9 +15,9 @@
             <table id="table" class="table table-striped tablesorter">
                 <thead>
                 <tr>
-                    <th width="100px">Name</th>
-                    <th>Email</th>
-                    <th width="150px">Added</th>
+                    <th class="header" width="100px"><a href="index.php?action=Index&amp;col=name&amp;dir=<?= $_GET['dir'] === 'desc' ? 'asc' : 'desc'  ?>">Name</a></th>
+                    <th class="header"><a href="index.php?actionIndex&amp;col=email&amp;dir=<?= $_GET['dir'] === 'desc' ? 'asc' : 'desc'  ?>">Email</a></th>
+                    <th class="header" width="150px"><a href="index.php?actionIndex&amp;col=published_at&amp;dir=<?= $_GET['dir'] === 'desc' ? 'asc' : 'desc'  ?>">Added</a></th>
                     <th class="sorter-false">Message</th>
                     <?php if (isset($_SESSION['user'])) : ?>
                         <th class="sorter-false">Action</th>

@@ -5,7 +5,7 @@
 </footer>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="../js/jquery.min.js"></script>
-<script src="../js/jquery.tablesorter.min.js"></script>
+<!--<script src="../js/jquery.tablesorter.min.js"></script>-->
 <script>
     $(document).ready(function()
         {
