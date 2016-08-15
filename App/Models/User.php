@@ -24,7 +24,7 @@ class User extends Model
         if (strlen($_POST['name']) < 3 or strlen($_POST['name']) > 30) {
             $err[] = "Логин должен быть не меньше 3-х символов и не больше 30";
         }
-        if ($this->findByName($_POST['name'])) {
+        if ($this->findByName($this->clean($_POST['name']))) {
             $err[] = 'Такой логин уже существует';
         }
         if ($_POST['password'] !== $_POST['password_confirm']) {
@@ -33,11 +33,11 @@ class User extends Model
         if (strlen($_POST['password']) < 4) {
             $err[] = 'Пароль должен быть не меньше 4-х символов';
         }
-
         if (count($err) == 0) {
             $this->name = trim($_POST['name']);
             $this->password = md5(md5(trim($_POST['password'])));
             $this->save();
+            $this->signin();
 
         } else {
             return $err;
@@ -64,7 +64,16 @@ class User extends Model
         }
     }
 
-    
+    private function clean($value = "")
+    {
+        $value = trim($value);
+        $value = stripslashes($value);
+        $value = strip_tags($value);
+        $value = htmlspecialchars($value);
+
+        return $value;
+    }
+
     /**
      * TODO реализовать профиль
      */

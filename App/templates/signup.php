@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <?php if (isset($this->errors)) : ?>
+            <?php if ($this->errors) : ?>
                 <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <?php foreach ($this->errors as $error) : ?>

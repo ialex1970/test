@@ -71,14 +71,13 @@ class MainController
     {
         if ($_POST) {
             $user = new User();
-            $res = $user->signup($_POST);
+            $res = $user->signup();
             if ($res !== null) {
                 $this->view->errors = $res;
             } else {
-                header('Location: http://guest.dev');
+                header('Location: http://test.dev');
             }
         }
-
         $this->view->title = 'Регистрация';
         echo $this->view->display(__DIR__ . '/../templates/signup.php');
     }
@@ -91,7 +90,7 @@ class MainController
         if ($_POST) {
             $user = new User();
             if ($user->signin()) {
-                header('Location: http://guest.dev/');
+                header('Location: http://test.dev/');
             } else {
                 $_SESSION['error'] = 'Неправильный логин или пароль';
             }
@@ -107,7 +106,7 @@ class MainController
     {
         session_start();
         unset($_SESSION['user']);
-        header('Location: http://guest.dev/');
+        header('Location: http://test.dev/');
     }
 
     /**
@@ -125,7 +124,7 @@ class MainController
                 if ($res !== null) {
                     $this->view->errors = $res;
                 } else {
-                    header('Location: http://guest.dev');
+                    header('Location: http://test.dev');
                 }
             }
         }
@@ -157,7 +156,7 @@ class MainController
             }
             $message->delete($_GET['id']);
         }
-        header('Location: http://guest.dev/index.php?action=Edit');
+        header('Location: http://test.dev/index.php?action=Edit');
     }
 
     /**
@@ -168,7 +167,7 @@ class MainController
         $message = Message::findById($_GET['id']);
         unlink($message->file);
         $message->deleteFileFromDb($_GET['id']);
-        header("Location: http://guest.dev/index.php?action=Single&id=$message->id");
+        header("Location: http://test.dev/index.php?action=Single&id=$message->id");
     }
 
     /**

@@ -4,7 +4,7 @@
     <row>
         <div class="col-md-10 col-md-offset-1">
 
-            <?php if (isset($this->errors)) : ?>
+            <?php if ($this->errors) : ?>
                 <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <p><?= $this->errors ?></p>
@@ -17,7 +17,7 @@
                 <tr>
                     <th class="header"><a href="index.php?action=Index&amp;col=name&amp;dir=<?= $_GET['dir'] === 'desc' ? 'asc' : 'desc'  ?>">Name <i class="fa fa-sort" aria-hidden="true"></i></a></th>
                     <th class="header"><a href="index.php?action=Index&amp;col=email&amp;dir=<?= $_GET['dir'] === 'desc' ? 'asc' : 'desc'  ?>">Email <i class="fa fa-sort" aria-hidden="true"></i></a></th>
-                    <th class="header"><a href="index.php?action=Index&amp;col=published_at&amp;dir=<?= $_GET['dir'] === 'desc' ? 'asc' : 'desc'  ?>">Added <i class="fa fa-sort" aria-hidden="true"></i></a></th>
+                    <th class="header date"><a href="index.php?action=Index&amp;col=published_at&amp;dir=<?= $_GET['dir'] === 'desc' ? 'asc' : 'desc'  ?>">Added <i class="fa fa-sort" aria-hidden="true"></i></a></th>
                     <th>Message</th>
                     <?php if (isset($_SESSION['user'])) : ?>
                         <th>Action</th>

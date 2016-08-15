@@ -121,7 +121,7 @@ class Message extends Model
             } else {
                 $this->save();
 
-                header('Location: http://guest.dev/');
+                header('Location: http://test.dev/');
             }
         } else {
             return $err;
