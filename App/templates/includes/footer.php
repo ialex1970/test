@@ -9,7 +9,11 @@
 <!--<script src="../js/jquery-ui.min.js"></script>-->
 <script src="../js/bootstrap.min.js"></script>
 <!--<script src="../js/jquery.tablesorter.min.js"></script>-->
-
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 
 </body>

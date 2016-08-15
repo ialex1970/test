@@ -46,7 +46,7 @@ class MainController
         } else {
             $data = Message::findAll();
         }
-        
+
         $this->view->numbers = $pag->Paginate($data, 25);
 
         $this->view->messages = $pag->fetchResult();
@@ -156,7 +156,7 @@ class MainController
             }
             $message->delete($_GET['id']);
         }
-        header('Location: http://test.dev/index.php?action=Edit');
+        header('Location: http://test.dev');
     }
 
     /**
@@ -182,12 +182,13 @@ class MainController
                 unlink($message->file);
             }
             $res = $message->store($id);
-            if ($res !== null) {
+            if ($res != null) {
                 $this->view->errors = $res;
                 $this->view->message = Message::findById($_GET['id']);
                 echo $this->view->display(__DIR__ . '/../templates/single.php');
             } else {
-                header('Location:' . $_SERVER['HTTP_REFERER']);
+                header('Location: http://test.dev');
+                //header('Location:' . $_SERVER['HTTP_REFERER']);
             }
         }
     }

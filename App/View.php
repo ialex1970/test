@@ -22,7 +22,18 @@ class View
             return $this->data[$name];
         }
     }
-
+    
+    
+public function __isset($k)
+    {
+        switch ($k) {
+            case 'success':
+                return !empty($this->success);
+                break;
+            default:
+                return false;
+        }
+    }
     public function render($template)
     {
         ob_start();

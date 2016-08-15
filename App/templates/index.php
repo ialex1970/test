@@ -10,7 +10,8 @@
                     <p><?= $this->errors ?></p>
                 </div>
             <?php endif; ?>
-
+            <?php session_start() ?>
+           
             <h1 class="page-header text-center">Гостевая книга</h1>
             <table id="table" class="table table-striped tablesorter">
                 <thead>
