@@ -16,7 +16,7 @@ class Db
             \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
         );
         try {
-            $this->_dbh = new \PDO('mysql:host=127.0.0.1;dbname=lesson', 'root', '123', $options);
+            $this->_dbh = new \PDO('mysql:host=127.0.0.1;dbname=guest_book', 'root', 'root', $options);
         } catch (\PDOException $e) {
             throw  new \App\Exceptions\Db('Что-то не так с базой' . ' ' . $e->getMessage());
         }
