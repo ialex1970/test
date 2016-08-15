@@ -16,7 +16,7 @@
             <table id="table" class="table table-striped tablesorter">
                 <thead>
                 <tr>
-                    <th class="header"><a href="index.php?action=Index&amp;col=name&amp;dir=<?= $_GET['dir'] === 'desc' ? 'asc' : 'desc'  ?>">Name <i class="fa fa-sort" aria-hidden="true"></i></a></th>
+                    <th class="header name"><a href="index.php?action=Index&amp;col=name&amp;dir=<?= $_GET['dir'] === 'desc' ? 'asc' : 'desc'  ?>">Name <i class="fa fa-sort" aria-hidden="true"></i></a></th>
                     <th class="header"><a href="index.php?action=Index&amp;col=email&amp;dir=<?= $_GET['dir'] === 'desc' ? 'asc' : 'desc'  ?>">Email <i class="fa fa-sort" aria-hidden="true"></i></a></th>
                     <th class="header date"><a href="index.php?action=Index&amp;col=published_at&amp;dir=<?= $_GET['dir'] === 'desc' ? 'asc' : 'desc'  ?>">Added <i class="fa fa-sort" aria-hidden="true"></i></a></th>
                     <th>Message</th>

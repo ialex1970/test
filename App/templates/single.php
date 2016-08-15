@@ -48,6 +48,7 @@
                         <div class="text-file">
                             <p><strong>User's file:</strong> <?= $this->message->file ?></p><a
                                 href="index.php?action=DeleteFile&amp;id=<?= $this->message->id ?>"
+                                title="удалить"><span class="glyphicon glyphicon-remove delete"></span></a>
                         </div>
                     <?php endif; ?>
                     <div class="form-group clearfix">

@@ -101,8 +101,15 @@ div.text-file p {
     text-decoration: none;
     color: #6E6E6E;
 }
+th {
+    color: #6E6E6E;
+}
 th.date {
     width: 150px;
+}
+
+th.name {
+    width: 80px;
 }
 
 /* My sort */

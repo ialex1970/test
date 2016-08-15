@@ -92,7 +92,8 @@ class MainController
             if ($user->signin()) {
                 header('Location: http://test.dev/');
             } else {
-                $_SESSION['error'] = 'Неправильный логин или пароль';
+                //$_SESSION['error'] = 'Неправильный логин или пароль';
+                $this->view->error = 'Неправильныйы логин или пароль';
             }
         }
         $this->view->title = 'Войти';
