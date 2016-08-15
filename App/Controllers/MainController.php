@@ -189,7 +189,6 @@ class MainController
                 echo $this->view->display(__DIR__ . '/../templates/single.php');
             } else {
                 header('Location: http://test.dev');
-                //header('Location:' . $_SERVER['HTTP_REFERER']);
             }
         }
     }

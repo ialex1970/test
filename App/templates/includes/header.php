@@ -10,7 +10,6 @@
     <!-- Bootstrap -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../css/parsley.css">
     <link href="../css/style.css" rel="stylesheet">
 
     <!-- ******** Раскомментировать для использования TinyMCE ***********-->
@@ -56,21 +55,6 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-               <!--   <li><a href="#">Link</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                    </ul>
-                </li>-->
-            </ul>
             <form action="index.php?action=Search" method="post" class="navbar-form navbar-left">
                 <div class="form-group">
                     <input type="text" name="value" class="form-control" placeholder="Поиск по сообщениям">
@@ -82,13 +66,11 @@
                 <li><a href="index.php?action=Signup"><?= isset($_SESSION['user']) ? '' : 'Регистрация' ?></a></li>
                 <li><a href="index.php?action=Signin"><?= isset($_SESSION['user']) ? '' : 'Вход' ?></a></li>
                 
-                <?php if (isset($_SESSION['user'])): ?>
+                <?php if (isset($_SESSION['user'])) : ?>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <?= $_SESSION['user']->name ?><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="index.php?action=Profile">Профиль</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
+                        <li><a href="index.php?action=Profile">Профиль (comming soon)</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="index.php?action=Logout"><?= isset($_SESSION['user']) ? 'Выход' : '' ?></a></li>
                     </ul>

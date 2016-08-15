@@ -64,6 +64,11 @@ class User extends Model
         }
     }
 
+    /**
+     * Убираем теги
+     * @param string $value
+     * @return string
+     */
     private function clean($value = "")
     {
         $value = trim($value);
@@ -72,12 +77,5 @@ class User extends Model
         $value = htmlspecialchars($value);
 
         return $value;
-    }
-
-    /**
-     * TODO реализовать профиль
-     */
-    public function profile()
-    {
     }
 }
